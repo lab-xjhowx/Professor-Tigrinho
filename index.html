@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simulador educativo que demonstra táticas psicológicas em jogos de azar - Professor Tigrinho">
+    <meta name="author" content="Jonathan">
+    <title>Professor Tigrinho 🐯 - Simulador Educativo de Jogos de Azar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-background"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo-icon">🐯</div>
+                <div class="logo-text">
+                    <h1>Professor Tigrinho</h1>
+                    <span class="subtitle">Simulador Educativo</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <div class="container">
+            <!-- Info Banner -->
+            <div class="info-banner">
+                <div class="banner-icon">⚠️</div>
+                <div class="banner-content">
+                    <strong>Projeto Educativo</strong>
+                    <p>Este simulador demonstra as táticas psicológicas usadas por jogos de azar. Não utiliza dinheiro real.</p>
+                </div>
+            </div>
+
+            <!-- Game Section -->
+            <div class="game-section">
+                <!-- Slot Machine -->
+                <div class="slot-machine-container">
+                    <div class="machine-glow"></div>
+                    <div class="slot-machine">
+                        <!-- Machine Header -->
+                        <div class="machine-header">
+                            <div class="header-lights">
+                                <div class="light" style="--delay: 0s"></div>
+                                <div class="light" style="--delay: 0.2s"></div>
+                                <div class="light" style="--delay: 0.4s"></div>
+                                <div class="light" style="--delay: 0.6s"></div>
+                                <div class="light" style="--delay: 0.8s"></div>
+                            </div>
+                            <div class="machine-title">SLOTMIND</div>
+                        </div>
+
+                        <!-- Display Screen -->
+                        <div class="display-screen">
+                            <div class="screen-border">
+                                <div class="slots-container" id="slotsContainer">
+                        <div class="slot-wrapper">
+                            <div class="slot" id="slot1">
+                                <span class="animal-icon">🐯</span>
+                            </div>
+                        </div>
+                        <div class="slot-wrapper">
+                            <div class="slot" id="slot2">
+                                <span class="animal-icon">🐀</span>
+                            </div>
+                        </div>
+                        <div class="slot-wrapper">
+                            <div class="slot" id="slot3">
+                                <span class="animal-icon">🐂</span>
+                            </div>
+                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Balance Display -->
+                        <div class="balance-container">
+                            <div class="balance-label">SALDO ATUAL</div>
+                            <div class="balance-value">
+                                R$ <span id="balance">100,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Control Panel -->
+                        <div class="control-panel">
+                            <button class="bet-button primary" id="spinBtn">
+                                <span class="button-icon">🎲</span>
+                                <span class="button-text">
+                                    <span class="button-label">APOSTAR</span>
+                                    <span class="button-value">R$ 10,00</span>
+                                </span>
+                            </button>
+                            <button class="bet-button secondary" id="smallBetBtn">
+                                <span class="button-icon">🎯</span>
+                                <span class="button-text">
+                                    <span class="button-label">APOSTAR</span>
+                                    <span class="button-value">R$ 5,00</span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn" id="configBtn">
+                                <span class="btn-icon">⚙️</span>
+                                <span>Configurações</span>
+                            </button>
+                            <button class="action-btn" id="infoBtn">
+                                <span class="btn-icon">💡</span>
+                                <span>Como Funciona</span>
+                            </button>
+                            <button class="action-btn" id="resetBtn">
+                                <span class="btn-icon">🔄</span>
+                                <span>Reiniciar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Panel -->
+                <div class="stats-panel">
+                    <div class="panel-header">
+                        <h3>📊 Estatísticas em Tempo Real</h3>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎮</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Total de Jogadas</div>
+                                <div class="stat-value" id="totalPlays">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Vitórias</div>
+                                <div class="stat-value" id="totalWins">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card success">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Lucro do Jogador</div>
+                                <div class="stat-value" id="playerProfit">R$ 0,00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card danger">
+                            <div class="stat-icon">🏛️</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Lucro da Casa</div>
+                                <div class="stat-value" id="houseProfit">R$ 0,00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Psychological Phase Indicator -->
+                    <div class="phase-indicator" id="phaseIndicator">
+                        <div class="phase-header">
+                            <span class="phase-icon">🧠</span>
+                            <span class="phase-title">Estado Psicológico</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="phase-bar">
+                                <div class="phase-fill" id="phaseFill"></div>
+                            </div>
+                            <div class="phase-text" id="phaseText">Fase Inicial - Hook Phase</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Log -->
+                <div class="history-panel">
+                    <div class="panel-header">
+                        <h3>📜 Histórico de Jogadas</h3>
+                        <button class="clear-history" id="clearHistory">Limpar</button>
+                    </div>
+                    <div class="history-log" id="historyLog">
+                        <div class="history-empty">Nenhuma jogada ainda. Comece apostando!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Configuration Modal -->
+    <div class="modal" id="configModal">
+        <div class="modal-overlay" data-close="configModal"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Configurações Avançadas</h2>
+                <button class="modal-close" data-close="configModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="config-section">
+                    <h3>🎯 Probabilidades e Multiplicadores</h3>
+                    <div class="config-table-wrapper">
+                        <table class="config-table">
+                            <thead>
+                                <tr>
+                                    <th>Animal</th>
+                                    <th>Chance (%)</th>
+                                    <th>Multiplicador</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="table-icon">🐀</span> Rato</td>
+                                <td><input type="number" class="config-input" id="ratChance" value="50" min="0" max="100"></td>
+                                <td><input type="number" class="config-input" id="ratMultiplier" value="1.2" step="0.1" min="1"></td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-icon">🐂</span> Touro</td>
+                                <td><input type="number" class="config-input" id="oxChance" value="10" min="0" max="100"></td>
+                                <td><input type="number" class="config-input" id="oxMultiplier" value="1.5" step="0.1" min="1"></td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-icon">🥇</span> Medalha</td>
+                                <td><input type="number" class="config-input" id="medalChance" value="6" min="0" max="100"></td>
+                                <td><input type="number" class="config-input" id="medalMultiplier" value="3.0" step="0.1" min="1"></td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-icon">🐰</span> Coelho</td>
+                                <td><input type="number" class="config-input" id="rabbitChance" value="4" min="0" max="100"></td>
+                                <td><input type="number" class="config-input" id="rabbitMultiplier" value="5.0" step="0.1" min="1"></td>
+                            </tr>
+                            <tr>
+                                <td><span class="table-icon">🐯</span> Tigre</td>
+                                <td><input type="number" class="config-input" id="tigerChance" value="2" min="0" max="100"></td>
+                                <td><input type="number" class="config-input" id="tigerMultiplier" value="9.0" step="0.1" min="1"></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>🎭 Táticas Psicológicas</h3>
+                    <div class="config-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" class="toggle-input" id="enablePsychTricks" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">Ativar Manipulação Psicológica</span>
+                        </label>
+                    </div>
+                    <div id="psychSettings">
+                        <div class="config-row">
+                            <label>Jogadas Iniciais "Fáceis"</label>
+                            <input type="number" class="config-input" id="easyWinsCount" value="5" min="1" max="20">
+                        </div>
+                        <div class="config-row">
+                            <label>Bônus de Chance Inicial (%)</label>
+                            <input type="number" class="config-input" id="easyWinsBonus" value="30" min="0" max="100">
+                        </div>
+                        <div class="config-row">
+                            <label>Redução Pós-Hook (%)</label>
+                            <input type="number" class="config-input" id="lossReduction" value="15" min="0" max="100">
+                        </div>
+                        <div class="config-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input" id="enableNearMiss" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">Ativar "Quase Vitórias"</span>
+                            </label>
+                        </div>
+                        <div class="config-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input" id="enableSounds" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">Sons e Efeitos</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>🏛️ Configurações da Casa</h3>
+                    <div class="config-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" class="toggle-input" id="guaranteeProfit">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">Garantir Lucro da Casa</span>
+                        </label>
+                    </div>
+                    <div class="config-row">
+                        <label>Margem de Lucro Alvo (%)</label>
+                        <input type="number" class="config-input" id="houseEdge" value="0" min="0" max="50">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" data-close="configModal">Cancelar</button>
+                <button class="modal-btn primary" id="saveConfig">Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="modal" id="infoModal">
+        <div class="modal-overlay" data-close="infoModal"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>💡 Como Funciona o Professor Tigrinho?</h2>
+                <button class="modal-close" data-close="infoModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <div class="info-icon">🎓</div>
+                    <h3>Sobre Este Projeto</h3>
+                    <p>O <strong>Professor Tigrinho</strong> é um simulador educativo que demonstra as táticas psicológicas utilizadas por jogos de azar e cassinos para manter jogadores apostando. Este projeto foi desenvolvido com propósitos educacionais e não envolve dinheiro real.</p>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-icon">🎮</div>
+                    <h3>Regras do Jogo</h3>
+                    <ul class="info-list">
+                        <li>Você começa com R$ 100,00 de saldo virtual</li>
+                        <li>Escolha apostar R$ 5,00 ou R$ 10,00</li>
+                        <li>Os três slots giram e mostram animais aleatórios</li>
+                        <li>Ganhe quando os três slots mostrarem o mesmo animal</li>
+                        <li>Cada animal tem probabilidade e multiplicador diferentes</li>
+                    </ul>
+                </div>
+
+                <div class="tactics-grid">
+                    <div class="tactic-card hook">
+                        <div class="tactic-number">1</div>
+                        <h4>🎣 Fase de "Fisgar"</h4>
+                        <p>Nas primeiras jogadas, suas chances de ganhar são artificialmente aumentadas para criar uma falsa sensação de facilidade e empolgação.</p>
+                    </div>
+
+                    <div class="tactic-card loss">
+                        <div class="tactic-number">2</div>
+                        <h4>📉 Perda Progressiva</h4>
+                        <p>Após a fase inicial, o jogo reduz drasticamente suas chances para recuperar os ganhos pagos e gerar lucro para a casa.</p>
+                    </div>
+
+                    <div class="tactic-card near">
+                        <div class="tactic-number">3</div>
+                        <h4>🎯 Quase Vitórias</h4>
+                        <p>O sistema frequentemente exibe resultados onde você "quase" venceu (2 símbolos iguais), criando falsa esperança de que a vitória está próxima.</p>
+                    </div>
+
+                    <div class="tactic-card reward">
+                        <div class="tactic-number">4</div>
+                        <h4>🎊 Reforço Positivo</h4>
+                        <p>Vitórias são celebradas com sons, animações e efeitos exagerados, enquanto perdas são minimizadas visualmente.</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-content">
+                        <strong>Importante:</strong> Estas são técnicas reais usadas pela indústria de jogos de azar. A matemática sempre favorece a casa no longo prazo. Este projeto visa educar sobre esses mecanismos.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn primary" data-close="infoModal">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal" id="winModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content win">
+            <div class="win-animation-container">
+                <div class="win-icon" id="winIcon">🐯</div>
+                <h2 class="win-title">GRANDE VITÓRIA!</h2>
+                <div class="win-amount" id="winAmount">R$ 90,00</div>
+                <p class="win-message">Continue jogando para ganhar mais!</p>
+                <button class="modal-btn primary large" id="continueBtn">Continuar Jogando</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Audio Elements -->
+    <audio id="winSound" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="spinSound" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
