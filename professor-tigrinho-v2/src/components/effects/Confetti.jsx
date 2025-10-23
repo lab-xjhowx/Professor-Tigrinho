@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import ReactConfetti from 'react-confetti';
-import { useWindowSize } from '@uidotdev/usehooks';
+import { useWindowSize } from '@hooks/useWindowSize';
 import { useAnimations } from '@hooks/useAnimations';
 
 export const Confetti = ({ trigger, duration = 3000 }) => {
