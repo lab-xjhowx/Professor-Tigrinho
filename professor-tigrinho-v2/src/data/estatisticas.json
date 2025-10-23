@@ -1,0 +1,159 @@
+{
+  "animais": [
+    {
+      "id": "rat",
+      "icon": "🐀",
+      "nome": "Rato",
+      "chance": 50,
+      "multiplicador": 1.2,
+      "raridade": "comum",
+      "cor": "#94a3b8",
+      "descricao": "O mais comum, mas ainda difícil de conseguir 3 iguais"
+    },
+    {
+      "id": "ox",
+      "icon": "🐂",
+      "nome": "Touro",
+      "chance": 10,
+      "multiplicador": 1.5,
+      "raridade": "incomum",
+      "cor": "#ef4444",
+      "descricao": "Touro da sorte? Nem sempre..."
+    },
+    {
+      "id": "medal",
+      "icon": "🥇",
+      "nome": "Medalha",
+      "chance": 6,
+      "multiplicador": 3.0,
+      "raridade": "raro",
+      "cor": "#fbbf24",
+      "descricao": "Medalha de ouro, mas suas chances são de bronze"
+    },
+    {
+      "id": "rabbit",
+      "icon": "🐰",
+      "nome": "Coelho",
+      "chance": 4,
+      "multiplicador": 5.0,
+      "raridade": "épico",
+      "cor": "#ec4899",
+      "descricao": "Rápido como um coelho... em fugir de você"
+    },
+    {
+      "id": "tiger",
+      "icon": "🐯",
+      "nome": "Tigre",
+      "chance": 2,
+      "multiplicador": 9.0,
+      "raridade": "lendário",
+      "cor": "#8b5cf6",
+      "descricao": "O tigre não quer te dar dinheiro, ele quer o seu!"
+    }
+  ],
+  "fases": [
+    {
+      "id": "hook",
+      "nome": "Hook Phase",
+      "emoji": "🎣",
+      "cor": "#10b981",
+      "descricao": "Fase de fisgar - Chances aumentadas!",
+      "chancesMultiplier": 1.3,
+      "duracao": "5-10 jogadas"
+    },
+    {
+      "id": "normal",
+      "nome": "Normal Phase",
+      "emoji": "⚖️",
+      "cor": "#fbbf24",
+      "descricao": "Fase normal - Chances padrão",
+      "chancesMultiplier": 1.0,
+      "duracao": "Variável"
+    },
+    {
+      "id": "loss",
+      "nome": "Loss Phase",
+      "emoji": "📉",
+      "cor": "#ef4444",
+      "descricao": "Fase de perda - Chances reduzidas!",
+      "chancesMultiplier": 0.7,
+      "duracao": "Até você depositar mais"
+    }
+  ],
+  "configuracoes": {
+    "saldoInicial": 100,
+    "apostas": [5, 10, 20, 50],
+    "hookPhaseJogadas": 5,
+    "nearMissChance": 0.4,
+    "soundsEnabled": true,
+    "effectsEnabled": true
+  },
+  "conquistas": [
+    {
+      "id": "first_spin",
+      "nome": "Primeira Aposta",
+      "descricao": "Você deu seu primeiro giro!",
+      "icon": "🎰",
+      "tipo": "bronze"
+    },
+    {
+      "id": "first_win",
+      "nome": "Primeira Vitória",
+      "descricao": "Ganhou pela primeira vez (foi programado)",
+      "icon": "🎉",
+      "tipo": "bronze"
+    },
+    {
+      "id": "wake_up",
+      "nome": "Despertar",
+      "descricao": "Você entendeu o sistema!",
+      "icon": "🧠",
+      "tipo": "ouro"
+    },
+    {
+      "id": "conscious",
+      "nome": "Consciente",
+      "descricao": "Você está imune à manipulação!",
+      "icon": "💎",
+      "tipo": "diamante"
+    },
+    {
+      "id": "educator",
+      "nome": "Educador",
+      "descricao": "Compartilhou conhecimento com outros",
+      "icon": "🎓",
+      "tipo": "especial"
+    }
+  ],
+  "missoes": [
+    {
+      "id": "understand_hook",
+      "titulo": "Entenda a Hook Phase",
+      "descricao": "Observe como as primeiras vitórias são manipuladas",
+      "recompensa": "+50 pontos de consciência",
+      "dificuldade": "fácil"
+    },
+    {
+      "id": "spot_near_miss",
+      "titulo": "Identifique Near-Miss",
+      "descricao": "Conte quantas vezes você vê '2 símbolos iguais'",
+      "recompensa": "+100 pontos de consciência",
+      "dificuldade": "média"
+    },
+    {
+      "id": "calculate_odds",
+      "titulo": "Calcule as Probabilidades",
+      "descricao": "Descubra a real chance de ganhar cada animal",
+      "recompensa": "+200 pontos de consciência",
+      "dificuldade": "difícil"
+    },
+    {
+      "id": "vip_unlock",
+      "titulo": "Desbloqueie o Modo VIP",
+      "descricao": "Acesse conteúdo educativo avançado",
+      "recompensa": "Modo Consciência Premium",
+      "dificuldade": "especial"
+    }
+  ]
+}
+

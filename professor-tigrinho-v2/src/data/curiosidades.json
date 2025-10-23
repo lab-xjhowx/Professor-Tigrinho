@@ -1,0 +1,138 @@
+{
+  "psicologia": [
+    {
+      "titulo": "🧠 Variable Ratio Reinforcement",
+      "descricao": "Recompensas aleatórias são mais viciantes que recompensas previsíveis.",
+      "exemplo": "É por isso que slot machines são mais viciantes que salários fixos.",
+      "fonte": "B.F. Skinner, 1953"
+    },
+    {
+      "titulo": "🎯 Near-Miss Effect",
+      "descricao": "Ver 'quase vitórias' ativa os mesmos neurônios de vitórias reais.",
+      "exemplo": "Dois símbolos iguais fazem você pensar: 'Quase ganhei!'",
+      "fonte": "Reid, 1986"
+    },
+    {
+      "titulo": "💊 Dopamina e Vício",
+      "descricao": "Cassinos exploram o mesmo sistema de recompensa que as drogas.",
+      "exemplo": "Cada 'quase vitória' libera dopamina, criando dependência química.",
+      "fonte": "Neurociência moderna"
+    },
+    {
+      "titulo": "🎪 Loss Aversion (Aversão à Perda)",
+      "descricao": "Perdas doem 2x mais que ganhos equivalentes trazem prazer.",
+      "exemplo": "Perder R$100 dói mais que ganhar R$100 te deixa feliz.",
+      "fonte": "Kahneman & Tversky, 1979"
+    },
+    {
+      "titulo": "🔄 Gambler's Fallacy",
+      "descricao": "Acreditar que eventos passados influenciam probabilidades futuras.",
+      "exemplo": "'Já perdi 10x, a próxima VAI dar certo!' (Não vai)",
+      "fonte": "Viés cognitivo documentado"
+    }
+  ],
+  "estatisticas": [
+    {
+      "titulo": "📊 80% Perdem Sempre",
+      "valor": "80%",
+      "descricao": "dos jogadores perdem dinheiro no longo prazo",
+      "impacto": "critical"
+    },
+    {
+      "titulo": "💰 House Edge",
+      "valor": "85%+",
+      "descricao": "é a vantagem matemática da casa em slots",
+      "impacto": "critical"
+    },
+    {
+      "titulo": "🎯 RTP Médio",
+      "valor": "15%",
+      "descricao": "retorno médio ao jogador (perde 85%)",
+      "impacto": "critical"
+    },
+    {
+      "titulo": "⏰ Tempo Médio até Falência",
+      "valor": "3-6 meses",
+      "descricao": "para jogadores que apostam regularmente",
+      "impacto": "warning"
+    },
+    {
+      "titulo": "🧠 Taxa de Vício",
+      "valor": "2-3%",
+      "descricao": "da população desenvolve vício em jogos de azar",
+      "impacto": "warning"
+    },
+    {
+      "titulo": "💸 Perdas Anuais",
+      "valor": "R$ 10 bilhões+",
+      "descricao": "perdidos anualmente no Brasil em apostas online",
+      "impacto": "critical"
+    }
+  ],
+  "taticas": [
+    {
+      "nome": "🎣 Hook Phase (Fase de Fisgar)",
+      "descricao": "Primeiras jogadas têm chances artificialmente aumentadas",
+      "objetivo": "Criar falsa sensação de facilidade e lucro rápido",
+      "duracao": "5-10 primeiras apostas"
+    },
+    {
+      "nome": "📉 Loss Phase (Fase de Perda)",
+      "descricao": "Após hook, chances são drasticamente reduzidas",
+      "objetivo": "Recuperar ganhos pagos e gerar lucro para casa",
+      "duracao": "Indefinida (até você desistir ou depositar mais)"
+    },
+    {
+      "nome": "🎯 Near-Miss Programming",
+      "descricao": "Algoritmo força 2 símbolos iguais em 40% das perdas",
+      "objetivo": "Criar ilusão de 'quase ganhou, continue tentando'",
+      "duracao": "Durante toda experiência"
+    },
+    {
+      "nome": "🎊 Positive Reinforcement",
+      "descricao": "Vitórias exageradas com confete, sons e animações",
+      "objetivo": "Maximizar dopamina em vitórias, minimizar dor em perdas",
+      "duracao": "Em todas as vitórias"
+    },
+    {
+      "nome": "⏰ Time Manipulation",
+      "descricao": "Interface sem relógio, tempo passa despercebido",
+      "objetivo": "Fazer você jogar por mais tempo que planejava",
+      "duracao": "Design permanente"
+    },
+    {
+      "nome": "💰 False Profit Display",
+      "descricao": "Mostrar 'ganhos' sem destacar perdas acumuladas",
+      "objetivo": "Criar falsa impressão de lucro",
+      "duracao": "UI manipulada constantemente"
+    }
+  ],
+  "realidade": [
+    {
+      "mito": "🎰 'Com estratégia certa, dá pra ganhar sempre'",
+      "realidade": "❌ FALSO. Matemática garante vitória da casa sempre.",
+      "explicacao": "House Edge é programado. Não existe 'estratégia' contra matemática."
+    },
+    {
+      "mito": "🎲 'Já perdi muito, a sorte vai virar'",
+      "realidade": "❌ FALSO. Cada aposta é independente das anteriores.",
+      "explicacao": "Gambler's Fallacy: seu cérebro busca padrões onde não existem."
+    },
+    {
+      "mito": "💰 'Vou parar quando recuperar o que perdi'",
+      "realidade": "❌ ARMADILHA. Perseguir perdas acelera falência.",
+      "explicacao": "Loss Aversion: você fica preso tentando 'consertar' prejuízos."
+    },
+    {
+      "mito": "🕐 'Só mais uma rodada...'",
+      "realidade": "❌ VÍCIO. Sinal claro de perda de controle.",
+      "explicacao": "Design manipula percepção de tempo. 'Uma rodada' vira horas."
+    },
+    {
+      "mito": "🎯 'Fulano ganhou milhões, eu também posso'",
+      "realidade": "❌ VIÉS. Você só vê os 0,01% que ganharam, não os 99,99% que perderam.",
+      "explicacao": "Survivorship Bias: propaganda só mostra vencedores."
+    }
+  ]
+}
+
