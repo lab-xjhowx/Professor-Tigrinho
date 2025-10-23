@@ -50,19 +50,31 @@ export const useAudio = () => {
   
   // Inicializar sons
   useEffect(() => {
+    // Desabilitado temporariamente - URLs externas retornam 403
+    // Para produção, adicione arquivos de som em /public/sounds/
+    /*
     Object.keys(SOUNDS).forEach(key => {
-      soundsRef.current[key] = new Howl({
-        src: SOUNDS[key].src,
-        volume: soundEnabled ? SOUNDS[key].volume : 0,
-        loop: SOUNDS[key].loop || false,
-        preload: true
-      });
+      try {
+        soundsRef.current[key] = new Howl({
+          src: SOUNDS[key].src,
+          volume: soundEnabled ? SOUNDS[key].volume : 0,
+          loop: SOUNDS[key].loop || false,
+          preload: false,
+          html5: true,
+          onloaderror: (id, error) => {
+            console.warn(`⚠️ Falha ao carregar som: ${key}`, error);
+          }
+        });
+      } catch (error) {
+        console.warn(`⚠️ Erro ao inicializar som: ${key}`, error);
+      }
     });
+    */
     
     return () => {
       // Limpar sons ao desmontar
       Object.values(soundsRef.current).forEach(sound => {
-        sound.unload();
+        if (sound) sound.unload();
       });
     };
   }, []);

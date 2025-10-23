@@ -13,7 +13,7 @@ export const SlotMachine = ({ resultado, isSpinning, isWin, isNearMiss }) => {
   const { getVariant } = useAnimations();
   
   useEffect(() => {
-    if (resultado && resultado.length === 3) {
+    if (resultado && Array.isArray(resultado) && resultado.length === 3) {
       setDisplayResults(resultado.map(r => r.icon));
     }
   }, [resultado]);
