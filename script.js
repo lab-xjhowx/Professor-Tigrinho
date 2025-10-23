@@ -31,6 +31,9 @@ const PSYCHOLOGICAL_PHASES = {
 // STATE MANAGEMENT
 // =====================================
 
+const BET_VALUES = [5, 10, 20, 50, 100];
+let currentBetIndex = 1; // Starts at R$ 10
+
 class GameState {
     constructor() {
         this.balance = 100;
@@ -517,10 +520,25 @@ class UIManager {
 
     updateButtons() {
         const spinBtn = document.getElementById('spinBtn');
-        const smallBetBtn = document.getElementById('smallBetBtn');
+        const decreaseBtn = document.getElementById('decreaseBet');
+        const increaseBtn = document.getElementById('increaseBet');
+        const currentBet = BET_VALUES[currentBetIndex];
         
-        spinBtn.disabled = gameState.isSpinning || gameState.balance < 10;
-        smallBetBtn.disabled = gameState.isSpinning || gameState.balance < 5;
+        // Update spin button
+        spinBtn.disabled = gameState.isSpinning || gameState.balance < currentBet;
+        
+        if (gameState.isSpinning) {
+            spinBtn.classList.add('spinning');
+        } else {
+            spinBtn.classList.remove('spinning');
+        }
+        
+        // Update bet controls
+        decreaseBtn.disabled = currentBetIndex === 0 || gameState.isSpinning;
+        increaseBtn.disabled = currentBetIndex === BET_VALUES.length - 1 || gameState.isSpinning;
+        
+        // Update bet display
+        document.getElementById('currentBet').textContent = currentBet;
     }
 
     showWinModal(animal, amount) {
@@ -630,13 +648,25 @@ function initializeGame() {
 }
 
 function setupEventListeners() {
-    // Bet buttons
-    document.getElementById('spinBtn').addEventListener('click', () => {
-        gameEngine.play(10);
+    // Bet controls
+    document.getElementById('decreaseBet').addEventListener('click', () => {
+        if (currentBetIndex > 0 && !gameState.isSpinning) {
+            currentBetIndex--;
+            UI.updateButtons();
+        }
     });
     
-    document.getElementById('smallBetBtn').addEventListener('click', () => {
-        gameEngine.play(5);
+    document.getElementById('increaseBet').addEventListener('click', () => {
+        if (currentBetIndex < BET_VALUES.length - 1 && !gameState.isSpinning) {
+            currentBetIndex++;
+            UI.updateButtons();
+        }
+    });
+    
+    // Spin button
+    document.getElementById('spinBtn').addEventListener('click', () => {
+        const currentBet = BET_VALUES[currentBetIndex];
+        gameEngine.play(currentBet);
     });
     
     // Action buttons

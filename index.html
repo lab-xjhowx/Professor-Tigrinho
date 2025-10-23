@@ -90,20 +90,24 @@
                         </div>
 
                         <!-- Control Panel -->
-                        <div class="control-panel">
-                            <button class="bet-button primary" id="spinBtn">
-                                <span class="button-icon">🎲</span>
-                                <span class="button-text">
-                                    <span class="button-label">APOSTAR</span>
-                                    <span class="button-value">R$ 10,00</span>
-                                </span>
+                        <div class="control-panel-new">
+                            <button class="bet-control-btn decrease" id="decreaseBet">
+                                <span class="btn-symbol">−</span>
                             </button>
-                            <button class="bet-button secondary" id="smallBetBtn">
-                                <span class="button-icon">🎯</span>
-                                <span class="button-text">
-                                    <span class="button-label">APOSTAR</span>
-                                    <span class="button-value">R$ 5,00</span>
-                                </span>
+                            
+                            <div class="spin-button-container">
+                                <button class="spin-button-main" id="spinBtn">
+                                    <span class="spin-icon">▶</span>
+                                    <span class="spin-text">GIRAR</span>
+                                </button>
+                                <div class="bet-display">
+                                    <span class="bet-label">Aposta</span>
+                                    <span class="bet-amount">R$ <span id="currentBet">10</span>,00</span>
+                                </div>
+                            </div>
+                            
+                            <button class="bet-control-btn increase" id="increaseBet">
+                                <span class="btn-symbol">+</span>
                             </button>
                         </div>
 

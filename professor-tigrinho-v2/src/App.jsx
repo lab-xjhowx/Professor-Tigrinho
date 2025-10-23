@@ -16,7 +16,7 @@ import { SimpleConfetti } from '@components/effects/Confetti';
 
 // Game Components
 import SlotMachine from '@components/game/SlotMachine';
-import SpinButton from '@components/game/SpinButton';
+import BetControls from '@components/game/BetControls';
 import { BalanceDisplay, ResultDisplay } from '@components/game/ResultDisplay';
 
 // Dashboard Components
@@ -158,24 +158,13 @@ function App() {
               <ResultDisplay resultado={ultimoResultado} show={showResult} />
             </SlideUp>
             
-            {/* Botões de Aposta */}
+            {/* Controles de Aposta */}
             <SlideUp delay={0.4}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <SpinButton
-                  valor={10}
-                  disabled={saldo < 10}
-                  isSpinning={isSpinning}
-                  onClick={() => handleApostar(10)}
-                  variant="primary"
-                />
-                <SpinButton
-                  valor={5}
-                  disabled={saldo < 5}
-                  isSpinning={isSpinning}
-                  onClick={() => handleApostar(5)}
-                  variant="secondary"
-                />
-              </div>
+              <BetControls
+                saldo={saldo}
+                isSpinning={isSpinning}
+                onSpin={handleApostar}
+              />
             </SlideUp>
             
             {/* Education Center (mobile) */}
