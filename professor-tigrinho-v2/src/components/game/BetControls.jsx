@@ -5,61 +5,45 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Minus, Plus, Play, Edit3 } from 'lucide-react';
+import { Minus, Plus, Play } from 'lucide-react';
 import { useAudio } from '@hooks/useAudio';
-
-const VALORES_APOSTA = [5, 10, 20, 50, 100];
 
 export const BetControls = ({ 
   saldo,
   isSpinning, 
   onSpin 
 }) => {
-  const [betIndex, setBetIndex] = useState(1); // Começa em R$ 10
-  const [modoCustom, setModoCustom] = useState(false);
-  const [valorCustom, setValorCustom] = useState('10');
+  const [valorAposta, setValorAposta] = useState(10); // Começa em R$ 10
   const { playClick } = useAudio();
   
-  const valorAtual = modoCustom 
-    ? parseFloat(valorCustom) || 0 
-    : VALORES_APOSTA[betIndex];
-  
-  const podeApostar = saldo >= valorAtual && !isSpinning && valorAtual >= 1 && valorAtual <= saldo;
-  const podeDiminuir = betIndex > 0 && !isSpinning && !modoCustom;
-  const podeAumentar = betIndex < VALORES_APOSTA.length - 1 && !isSpinning && !modoCustom;
+  const podeApostar = saldo >= valorAposta && !isSpinning && valorAposta >= 1 && valorAposta <= saldo;
+  const podeDiminuir = valorAposta > 1 && !isSpinning;
+  const podeAumentar = valorAposta < saldo && !isSpinning;
   
   const handleDiminuir = () => {
     if (podeDiminuir) {
       playClick();
-      setBetIndex(prev => Math.max(0, prev - 1));
+      setValorAposta(prev => Math.max(1, prev - 1));
     }
   };
   
   const handleAumentar = () => {
     if (podeAumentar) {
       playClick();
-      setBetIndex(prev => Math.min(VALORES_APOSTA.length - 1, prev + 1));
+      setValorAposta(prev => Math.min(saldo, prev + 1));
     }
   };
   
   const handleGirar = () => {
     if (podeApostar) {
       playClick();
-      onSpin(valorAtual);
+      onSpin(valorAposta);
     }
   };
   
-  const toggleModoCustom = () => {
-    playClick();
-    if (!modoCustom) {
-      setValorCustom(valorAtual.toString());
-    }
-    setModoCustom(!modoCustom);
-  };
-  
-  const handleValorCustomChange = (e) => {
-    const value = e.target.value.replace(/[^0-9.]/g, '');
-    setValorCustom(value);
+  const handleInputChange = (e) => {
+    const value = parseFloat(e.target.value) || 0;
+    setValorAposta(Math.min(Math.max(1, value), saldo));
   };
   
   return (
@@ -177,19 +161,28 @@ export const BetControls = ({
           )}
         </motion.button>
         
-        {/* Display do Valor da Aposta */}
+        {/* Input do Valor da Aposta */}
         <motion.div
-          className="text-center px-6 py-2 rounded-full bg-slate-800/80 backdrop-blur-sm border border-slate-700"
-          key={valorAtual}
+          className="text-center"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-          <div className="text-xs text-slate-400 uppercase tracking-wider">
+          <div className="text-xs text-slate-400 uppercase tracking-wider mb-2">
             Aposta
           </div>
-          <div className="text-2xl font-display font-black text-gold-400">
-            R$ {valorAtual.toFixed(2).replace('.', ',')}
+          <div className="flex items-center gap-2 bg-slate-800/80 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
+            <span className="text-gold-400 font-bold">R$</span>
+            <input
+              type="number"
+              min="1"
+              max={saldo}
+              step="0.01"
+              value={valorAposta}
+              onChange={handleInputChange}
+              disabled={isSpinning}
+              className="w-20 bg-transparent text-2xl font-display font-black text-gold-400 text-center focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
           </div>
         </motion.div>
       </div>
@@ -213,55 +206,10 @@ export const BetControls = ({
         <Plus className="w-6 h-6" />
       </motion.button>
       </div>
-      
-      {/* Modo Aposta Customizada */}
-      <div className="flex items-center gap-2">
-        <motion.button
-          onClick={toggleModoCustom}
-          disabled={isSpinning}
-          className={`
-            px-4 py-2 rounded-lg text-sm font-medium
-            flex items-center gap-2 transition-all
-            ${modoCustom 
-              ? 'bg-gold-500 text-slate-900 shadow-lg shadow-gold-500/50' 
-              : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
-            }
-            ${isSpinning ? 'opacity-50 cursor-not-allowed' : ''}
-          `}
-          whileHover={!isSpinning ? { scale: 1.05 } : {}}
-          whileTap={!isSpinning ? { scale: 0.95 } : {}}
-        >
-          <Edit3 className="w-4 h-4" />
-          {modoCustom ? 'Valores Fixos' : 'Valor Livre'}
-        </motion.button>
-        
-        {modoCustom && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-2"
-          >
-            <span className="text-slate-400 text-sm">R$</span>
-            <input
-              type="number"
-              min="1"
-              max={saldo}
-              step="1"
-              value={valorCustom}
-              onChange={handleValorCustomChange}
-              disabled={isSpinning}
-              className="w-24 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-center font-bold focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/50 disabled:opacity-50"
-              placeholder="10"
-            />
-            <span className="text-slate-500 text-xs">
-              (max: R$ {saldo.toFixed(0)})
-            </span>
-          </motion.div>
-        )}
-      </div>
     </div>
   );
 };
 
 export default BetControls;
+
 

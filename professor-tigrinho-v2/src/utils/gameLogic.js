@@ -37,6 +37,16 @@ export const processarAposta = (estadoAtual, valorAposta) => {
   if (isVitoria) {
     ganho = valorAposta * resultado[0].multiplicador;
     novoSaldoFinal = novoSaldo + ganho;
+    
+    console.log('💰 CÁLCULO DE VITÓRIA:', {
+      saldoInicial: saldo,
+      aposta: valorAposta,
+      saldoAposAposta: novoSaldo,
+      multiplicador: resultado[0].multiplicador,
+      ganho: ganho,
+      saldoFinal: novoSaldoFinal,
+      animal: resultado[0].nome
+    });
   }
   
   // Atualizar estatísticas
