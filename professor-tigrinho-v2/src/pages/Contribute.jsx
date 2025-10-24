@@ -170,7 +170,7 @@ export const Contribute = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-slate-700 hover:border-primary-500 rounded-2xl p-8 transition-all"
+              className="group bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-slate-700 hover:border-primary-500 rounded-2xl p-8 transition-all select-none"
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-14 h-14 bg-slate-950 rounded-xl flex items-center justify-center group-hover:bg-primary-500/20 transition-colors">
@@ -183,8 +183,21 @@ export const Contribute = () => {
                   <p className="text-sm text-slate-500">Apoio recorrente</p>
                 </div>
               </div>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed mb-4">
                 Torne-se um sponsor no GitHub e ajude no desenvolvimento contínuo de projetos open-source.
+              </p>
+              
+              {/* GitHub Sponsors Image */}
+              <div className="bg-white rounded-xl p-4 inline-block">
+                <img 
+                  src="/GitHub-Sponsors.png" 
+                  alt="GitHub Sponsors" 
+                  className="w-32 h-32 object-contain"
+                  draggable="false"
+                />
+              </div>
+              <p className="text-xs text-primary-400/70 mt-2">
+                Apoio mensal via GitHub
               </p>
             </motion.a>
 
@@ -195,7 +208,7 @@ export const Contribute = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group bg-gradient-to-br from-teal-500/10 to-cyan-500/10 border-2 border-teal-500/30 hover:border-teal-400 rounded-2xl p-8 transition-all relative overflow-hidden"
+              className="group bg-gradient-to-br from-teal-500/10 to-cyan-500/10 border-2 border-teal-500/30 hover:border-teal-400 rounded-2xl p-8 transition-all relative overflow-hidden select-none"
             >
               {/* Bandeira Brasil Sutil */}
               <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
@@ -229,6 +242,7 @@ export const Contribute = () => {
                     src="/doe-pix.png" 
                     alt="QR Code PIX" 
                     className="w-32 h-32 object-contain"
+                    draggable="false"
                   />
                 </div>
                 <p className="text-xs text-teal-400/70 mt-2">

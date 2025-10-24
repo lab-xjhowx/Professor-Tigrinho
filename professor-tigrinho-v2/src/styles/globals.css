@@ -33,6 +33,10 @@
   body {
     @apply bg-casino-gradient bg-fixed text-slate-100 antialiased;
     font-family: 'Poppins', system-ui, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -125,5 +129,30 @@
 .skeleton {
   @apply bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-[length:1000px_100%];
   animation: shimmer 2s infinite linear;
+}
+
+/* Content Protection */
+@layer base {
+  /* Disable text selection globally */
+  * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  /* Prevent image dragging */
+  img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: auto;
+  }
+  
+  /* Disable right-click context menu */
+  body {
+    -webkit-touch-callout: none;
+  }
 }
 
