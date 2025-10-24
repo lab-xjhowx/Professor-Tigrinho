@@ -1,80 +1,121 @@
 /**
- * 🔊 HOOK DE GERENCIAMENTO DE ÁUDIO
- * Sistema de sons e música
+ * 🔊 HOOK DE GERENCIAMENTO DE ÁUDIO v2.0
+ * Sistema de sons otimizado com HTML5 Audio API
  */
 
-import { useEffect, useRef } from 'react';
-import { Howl } from 'howler';
+import { useEffect, useRef, useCallback } from 'react';
 import { useGameState } from './useGameState';
 
-// Definir sons (URLs podem ser substituídas por arquivos locais)
+// Configuração de sons - PRIORIDADE: arquivos locais, FALLBACK: sem som
 const SOUNDS = {
   spin: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3'],
-    volume: 0.3
+    src: '/sounds/spin.mp3',
+    volume: 0.3,
+    fallback: true
   },
   win: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'],
-    volume: 0.5
+    src: '/sounds/win.mp3',
+    volume: 0.5,
+    fallback: true
   },
   bigWin: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3'],
-    volume: 0.6
+    src: '/sounds/bigwin.mp3',
+    volume: 0.6,
+    fallback: true
   },
   lose: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2001/2001-preview.mp3'],
-    volume: 0.2
+    src: '/sounds/lose.mp3',
+    volume: 0.2,
+    fallback: true
   },
   nearMiss: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'],
-    volume: 0.3
+    src: '/sounds/nearmiss.mp3',
+    volume: 0.3,
+    fallback: true
   },
   click: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3'],
-    volume: 0.2
+    src: '/sounds/click.mp3',
+    volume: 0.2,
+    fallback: true
   },
   achievement: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'],
-    volume: 0.4
-  },
-  ambient: {
-    src: ['https://assets.mixkit.co/active_storage/sfx/2569/2569-preview.mp3'],
-    volume: 0.1,
-    loop: true
+    src: '/sounds/achievement.mp3',
+    volume: 0.4,
+    fallback: true
   }
 };
+
+/**
+ * Classe para gerenciar sons individuais com HTML5 Audio
+ */
+class Sound {
+  constructor(src, volume = 1.0) {
+    this.audio = new Audio(src);
+    this.audio.volume = volume;
+    this.audio.preload = 'auto';
+    this.loaded = false;
+    this.failed = false;
+    
+    // Tentar carregar
+    this.audio.addEventListener('canplaythrough', () => {
+      this.loaded = true;
+    }, { once: true });
+    
+    this.audio.addEventListener('error', () => {
+      this.failed = true;
+      console.warn(`🔇 Som não disponível: ${src} (funcionando silenciosamente)`);
+    }, { once: true });
+  }
+  
+  play() {
+    if (this.failed) return; // Falhou ao carregar, ignora silenciosamente
+    
+    // Resetar para o início se já estiver tocando
+    this.audio.currentTime = 0;
+    
+    // Tentar tocar, ignorar erros de autoplay
+    this.audio.play().catch(error => {
+      // Navegador bloqueou autoplay - normal, não é erro crítico
+      if (error.name !== 'NotAllowedError') {
+        console.warn('🔇 Audio play blocked:', error.message);
+      }
+    });
+  }
+  
+  stop() {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+  }
+  
+  setVolume(volume) {
+    this.audio.volume = Math.max(0, Math.min(1, volume));
+  }
+}
 
 export const useAudio = () => {
   const soundsRef = useRef({});
   const soundEnabled = useGameState(state => state.soundEnabled);
+  const initializedRef = useRef(false);
   
-  // Inicializar sons
+  // Inicializar sons uma única vez
   useEffect(() => {
-    // Desabilitado temporariamente - URLs externas retornam 403
-    // Para produção, adicione arquivos de som em /public/sounds/
-    /*
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+    
+    // Criar instâncias de sons
     Object.keys(SOUNDS).forEach(key => {
       try {
-        soundsRef.current[key] = new Howl({
-          src: SOUNDS[key].src,
-          volume: soundEnabled ? SOUNDS[key].volume : 0,
-          loop: SOUNDS[key].loop || false,
-          preload: false,
-          html5: true,
-          onloaderror: (id, error) => {
-            console.warn(`⚠️ Falha ao carregar som: ${key}`, error);
-          }
-        });
+        const config = SOUNDS[key];
+        soundsRef.current[key] = new Sound(config.src, config.volume);
       } catch (error) {
-        console.warn(`⚠️ Erro ao inicializar som: ${key}`, error);
+        console.warn(`⚠️ Erro ao criar som ${key}:`, error.message);
       }
     });
-    */
     
     return () => {
       // Limpar sons ao desmontar
       Object.values(soundsRef.current).forEach(sound => {
-        if (sound) sound.unload();
+        if (sound) sound.stop();
       });
     };
   }, []);
@@ -83,8 +124,9 @@ export const useAudio = () => {
   useEffect(() => {
     Object.keys(soundsRef.current).forEach(key => {
       const sound = soundsRef.current[key];
-      if (sound) {
-        sound.volume(soundEnabled ? SOUNDS[key].volume : 0);
+      const config = SOUNDS[key];
+      if (sound && config) {
+        sound.setVolume(soundEnabled ? config.volume : 0);
       }
     });
   }, [soundEnabled]);
@@ -92,59 +134,44 @@ export const useAudio = () => {
   /**
    * Tocar som específico
    */
-  const play = (soundName, options = {}) => {
+  const play = useCallback((soundName) => {
     if (!soundEnabled) return;
     
     const sound = soundsRef.current[soundName];
     if (sound) {
-      if (options.stop && sound.playing()) {
-        sound.stop();
-      }
       sound.play();
     }
-  };
+  }, [soundEnabled]);
   
   /**
    * Parar som específico
    */
-  const stop = (soundName) => {
+  const stop = useCallback((soundName) => {
     const sound = soundsRef.current[soundName];
     if (sound) {
       sound.stop();
     }
-  };
+  }, []);
   
   /**
    * Parar todos os sons
    */
-  const stopAll = () => {
+  const stopAll = useCallback(() => {
     Object.values(soundsRef.current).forEach(sound => {
       if (sound) sound.stop();
     });
-  };
+  }, []);
   
   /**
    * Sons específicos do jogo
    */
-  const playSpin = () => play('spin');
-  const playWin = () => play('win');
-  const playBigWin = () => play('bigWin');
-  const playLose = () => play('lose');
-  const playNearMiss = () => play('nearMiss');
-  const playClick = () => play('click');
-  const playAchievement = () => play('achievement');
-  
-  /**
-   * Música ambiente
-   */
-  const startAmbient = () => {
-    const ambient = soundsRef.current.ambient;
-    if (ambient && soundEnabled && !ambient.playing()) {
-      ambient.play();
-    }
-  };
-  
-  const stopAmbient = () => stop('ambient');
+  const playSpin = useCallback(() => play('spin'), [play]);
+  const playWin = useCallback(() => play('win'), [play]);
+  const playBigWin = useCallback(() => play('bigWin'), [play]);
+  const playLose = useCallback(() => play('lose'), [play]);
+  const playNearMiss = useCallback(() => play('nearMiss'), [play]);
+  const playClick = useCallback(() => play('click'), [play]);
+  const playAchievement = useCallback(() => play('achievement'), [play]);
   
   return {
     play,
@@ -157,8 +184,6 @@ export const useAudio = () => {
     playNearMiss,
     playClick,
     playAchievement,
-    startAmbient,
-    stopAmbient,
     soundEnabled
   };
 };

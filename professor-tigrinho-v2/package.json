@@ -20,7 +20,6 @@
     "lucide-react": "^0.400.0",
     "zustand": "^4.5.4",
     "react-confetti": "^6.1.0",
-    "howler": "^2.2.4",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
