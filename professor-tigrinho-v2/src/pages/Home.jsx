@@ -69,6 +69,41 @@ export const Home = () => {
     // startAmbient();
   }, []);
   
+  // Sistema de "Tempo de Vida Capturado" - Popup a cada 5 minutos
+  useEffect(() => {
+    const startTime = Date.now();
+    let intervaloAtual = 1; // Começa no primeiro intervalo (5 min)
+    
+    // Para teste rápido em dev, mude para true
+    const MODO_TESTE = false;
+    const INTERVALO_BASE = MODO_TESTE ? 30000 : 5 * 60 * 1000; // 30s em teste, 5min em prod
+    
+    const checkTempoGasto = () => {
+      const tempoDecorrido = Date.now() - startTime;
+      const proximoMilestone = intervaloAtual * INTERVALO_BASE;
+      
+      if (tempoDecorrido >= proximoMilestone) {
+        const minutosReais = intervaloAtual * (MODO_TESTE ? 0.5 : 5);
+        const { showReward } = useGameState.getState();
+        
+        showReward(
+          `⏰ Já ganhamos ${MODO_TESTE ? Math.round(minutosReais) : minutosReais} minutos da sua vida! Continue aqui com a gente, conhecendo nosso projeto, você ainda vai se surpreender 💜`
+        );
+        
+        console.log(`🕐 Popup de tempo mostrado: ${minutosReais} minutos`);
+        intervaloAtual++; // Próximo milestone (10, 15, 20...)
+      }
+    };
+    
+    // Checar a cada 30 segundos
+    const interval = setInterval(checkTempoGasto, 30000);
+    
+    // Mensagem inicial no console
+    console.log('⏱️ Sistema de tracking de tempo iniciado. Popup aparecerá aos 5, 10, 15... minutos');
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   // Handler de aposta
   const handleApostar = async (valor) => {
     if (isSpinning || saldo < valor) return;

@@ -122,8 +122,7 @@ export const RewardPopup = () => {
               {/* Info */}
               <div className="bg-primary-500/20 border border-primary-400/30 rounded-xl p-4 mb-6">
                 <p className="text-sm text-center text-slate-300">
-                  💡 <span className="font-semibold">Lembre-se:</span> Estas "recompensas" são educativas!
-                  Cassinos reais usam gamificação falsa para te manter jogando.
+                  💡 <span className="font-semibold">Lembre-se:</span> Cassinos reais usam gamificação falsa para te manter jogando.
                 </p>
               </div>
               
