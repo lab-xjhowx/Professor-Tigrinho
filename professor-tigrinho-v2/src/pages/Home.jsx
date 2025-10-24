@@ -32,6 +32,7 @@ import RewardPopup from '@components/ui/RewardPopup';
 
 // Animations
 import { FadeIn, SlideUp } from '@components/effects/Animations';
+import { motion } from 'framer-motion';
 
 // Dev Messages
 import devMessages from '@utils/devMessages';
@@ -152,77 +153,139 @@ export const Home = () => {
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {/* Banner Educativo */}
-        <FadeIn>
-          <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 mb-8 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-3xl">⚠️</span>
-              <h2 className="text-2xl font-display font-bold text-yellow-300">
-                Projeto Educativo
-              </h2>
-            </div>
-            <p className="text-slate-200">
-              Este simulador demonstra as <span className="font-semibold text-yellow-300">táticas psicológicas</span> usadas
-              por jogos de azar para manipular jogadores. Não utiliza dinheiro real.
-              <span className="block mt-2 text-sm text-slate-400">
-                🎓 Aprenda sobre Hook Phase, Near-Miss, Loss Aversion e muito mais!
-              </span>
-            </p>
-          </div>
-        </FadeIn>
-        
-        {/* Game Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Slot Machine */}
-          <div className="lg:col-span-2 space-y-6">
-            <SlideUp delay={0.1}>
-              <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
-            </SlideUp>
-            
-            <SlideUp delay={0.2}>
-              <SlotMachine
-                resultado={ultimoResultado?.animais}
-                isSpinning={isSpinning}
-                isWin={ultimoResultado?.isVitoria}
-                isNearMiss={ultimoResultado?.isNearMiss}
-              />
-            </SlideUp>
-            
-            <SlideUp delay={0.3}>
-              <ResultDisplay resultado={ultimoResultado} show={showResult} />
-            </SlideUp>
-            
-            {/* Controles de Aposta */}
-            <SlideUp delay={0.4}>
-              <BetControls
-                saldo={saldo}
-                isSpinning={isSpinning}
-                onSpin={handleApostar}
-              />
-            </SlideUp>
-            
-            {/* Education Center (mobile) */}
-            <div className="lg:hidden">
-              <SlideUp delay={0.5}>
-                <EducationCenter />
-              </SlideUp>
-            </div>
-          </div>
+        {/* Mobile: Flex container com ordem customizada | Desktop: Flow normal */}
+        <div className="flex flex-col lg:block space-y-0 lg:space-y-0">
           
-          {/* Right Column - Stats & Education */}
-          <div className="space-y-6">
-            <SlideUp delay={0.3}>
-              <PhaseIndicator />
-            </SlideUp>
-            
-            <SlideUp delay={0.4}>
-              <Stats />
-            </SlideUp>
-            
-            <div className="hidden lg:block">
-              <SlideUp delay={0.5}>
+          {/* 1️⃣ Banner Educativo - Mobile: order-1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.4 }}
+            className="order-1 mb-4 lg:mb-8"
+          >
+            <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">⚠️</span>
+                <h2 className="text-2xl font-display font-bold text-yellow-300">
+                  Projeto Educativo
+                </h2>
+              </div>
+              <p className="text-slate-200">
+                Este simulador demonstra as <span className="font-semibold text-yellow-300">táticas psicológicas</span> usadas
+                por jogos de azar para manipular jogadores. Não utiliza dinheiro real.
+                <span className="block mt-2 text-sm text-slate-400">
+                  🎓 Aprenda sobre Hook Phase, Near-Miss, Loss Aversion e muito mais!
+                </span>
+              </p>
+            </div>
+          </motion.div>
+          
+          {/* Game Layout Container */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 order-2">
+            {/* Left Column - Slot Machine & Controls */}
+            <div className="lg:col-span-2 flex flex-col space-y-4 lg:space-y-6">
+              
+              {/* 3️⃣ Saldo Atual - Mobile: order-3 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="order-3 lg:order-none"
+              >
+                <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
+              </motion.div>
+              
+              {/* 4️⃣ Slot Machine - Mobile: order-4 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="order-4 lg:order-none"
+              >
+                <SlotMachine
+                  resultado={ultimoResultado?.animais}
+                  isSpinning={isSpinning}
+                  isWin={ultimoResultado?.isVitoria}
+                  isNearMiss={ultimoResultado?.isNearMiss}
+                />
+              </motion.div>
+              
+              {/* Resultado da Jogada */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="order-4 lg:order-none"
+              >
+                <ResultDisplay resultado={ultimoResultado} show={showResult} />
+              </motion.div>
+              
+              {/* Controles de Aposta */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.25 }}
+                className="order-4 lg:order-none"
+              >
+                <BetControls
+                  saldo={saldo}
+                  isSpinning={isSpinning}
+                  onSpin={handleApostar}
+                />
+              </motion.div>
+              
+              {/* 8️⃣ Education Center (mobile only) - Mobile: order-8 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="lg:hidden order-8"
+              >
                 <EducationCenter />
-              </SlideUp>
+              </motion.div>
+            </div>
+            
+            {/* Right Column - Stats & Phase */}
+            <div className="flex flex-col space-y-4 lg:space-y-6">
+              
+              {/* 2️⃣ Nível de Consciência (Stats - parte superior) - Mobile: order-2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="order-2 lg:order-none"
+              >
+                <Stats />
+              </motion.div>
+              
+              {/* 5️⃣ Estado Psicológico - Mobile: order-5 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="order-5 lg:order-none"
+              >
+                <PhaseIndicator />
+              </motion.div>
+              
+              {/* Education Center (desktop only) */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.35 }}
+                className="hidden lg:block"
+              >
+                <EducationCenter />
+              </motion.div>
             </div>
           </div>
         </div>
