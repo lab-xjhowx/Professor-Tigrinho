@@ -59,7 +59,7 @@ export const SlotMachine = ({ resultado, isSpinning, isWin, isNearMiss }) => {
           transition={{ duration: 3, repeat: Infinity }}
         >
           <h2 className="text-4xl font-display font-black bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 bg-clip-text text-transparent bg-[length:200%_auto]">
-            SLOTMIND v2.0
+            💲 JOGUE AGORA 💲
           </h2>
         </motion.div>
         
