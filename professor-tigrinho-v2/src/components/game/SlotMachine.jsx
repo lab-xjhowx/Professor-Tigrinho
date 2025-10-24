@@ -14,7 +14,13 @@ export const SlotMachine = ({ resultado, isSpinning, isWin, isNearMiss }) => {
   
   useEffect(() => {
     if (resultado && Array.isArray(resultado) && resultado.length === 3) {
-      setDisplayResults(resultado.map(r => r.icon));
+      try {
+        const icons = resultado.map(r => r?.icon || '🐯');
+        setDisplayResults(icons);
+      } catch (error) {
+        console.error('Erro ao processar resultado:', error);
+        setDisplayResults(['🐯', '🐀', '🐂']);
+      }
     }
   }, [resultado]);
   

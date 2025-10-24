@@ -59,7 +59,7 @@ export const processarAposta = (estadoAtual, valorAposta) => {
     id: Date.now(),
     timestamp: new Date().toISOString(),
     aposta: valorAposta,
-    resultado: resultado.map(a => a.icon).join(' '),
+    resultado: resultado,  // Mantém como array!
     animais: resultado,
     isVitoria,
     isNearMiss,
