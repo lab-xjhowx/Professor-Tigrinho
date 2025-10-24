@@ -153,16 +153,16 @@ export const Home = () => {
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {/* Layout Mobile-First: Todos os componentes em ordem flexbox */}
-        <div className="flex flex-col space-y-4 md:space-y-6">
-
-          {/* 1️⃣ Banner Educativo */}
+        {/* Mobile: Flex container com ordem customizada | Desktop: Layout original em grid */}
+        <div className="flex flex-col md:block">
+          
+          {/* 1️⃣ Banner Educativo - Mobile: order-1 */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.4 }}
-            className="mb-4 md:mb-8"
+            className="order-1 mb-4 md:mb-8"
           >
             <div className="relative bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-2">
@@ -180,25 +180,14 @@ export const Home = () => {
               </p>
             </div>
           </motion.div>
+          
+          {/* Game Layout Container - Desktop: Grid 3 colunas | Mobile: Continua ordem flexbox */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
 
-          {/* Desktop: Game Layout em Grid | Mobile: Continua no flex container */}
-          <div className="md:grid md:grid-cols-3 md:gap-8">
-
-            {/* Left Column - Desktop Grid | Mobile: Continua na ordem flexbox */}
+            {/* Left Column - Desktop: Slot Machine & Controls | Mobile: Ordem flexbox */}
             <div className="md:col-span-2 flex flex-col space-y-4 md:space-y-6">
-
-              {/* 2️⃣ Stats/Nível de Consciência */}
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="order-2 md:order-none"
-              >
-                <Stats />
-              </motion.div>
-
-              {/* 3️⃣ Saldo Atual */}
+              
+              {/* Saldo Atual - Desktop: normal | Mobile: order-3 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -208,8 +197,8 @@ export const Home = () => {
               >
                 <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
               </motion.div>
-
-              {/* 4️⃣ Slot Machine */}
+              
+              {/* Slot Machine - Desktop: normal | Mobile: order-4 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -224,8 +213,19 @@ export const Home = () => {
                   isNearMiss={ultimoResultado?.isNearMiss}
                 />
               </motion.div>
-
-              {/* 5️⃣ Controles de Aposta */}
+              
+              {/* Resultado da Jogada - Desktop: normal | Mobile: order-6 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.25 }}
+                className="order-6 md:order-none"
+              >
+                <ResultDisplay resultado={ultimoResultado} show={showResult} />
+              </motion.div>
+              
+              {/* Controles de Aposta - Desktop: normal | Mobile: order-5 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -239,23 +239,23 @@ export const Home = () => {
                   onSpin={handleApostar}
                 />
               </motion.div>
-
-              {/* 6️⃣ Resultado da Jogada */}
+            </div>
+            
+            {/* Right Column - Desktop: Stats & Phase | Mobile: Ordem flexbox */}
+            <div className="flex flex-col space-y-4 md:space-y-6">
+              
+              {/* Stats - Desktop: normal | Mobile: order-2 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4, delay: 0.25 }}
-                className="order-6 md:order-none"
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="order-2 md:order-none"
               >
-                <ResultDisplay resultado={ultimoResultado} show={showResult} />
+                <Stats />
               </motion.div>
-            </div>
-
-            {/* Right Column - Desktop Grid | Mobile: Continua na ordem flexbox */}
-            <div className="flex flex-col space-y-4 md:space-y-6">
-
-              {/* 7️⃣ Estado Psicológico */}
+              
+              {/* Estado Psicológico - Desktop: normal | Mobile: order-7 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -266,7 +266,7 @@ export const Home = () => {
                 <PhaseIndicator />
               </motion.div>
 
-              {/* 8️⃣ EducationCenter */}
+              {/* EducationCenter - Desktop: normal | Mobile: order-8 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
