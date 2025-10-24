@@ -188,29 +188,53 @@ export const Contribute = () => {
               </p>
             </motion.a>
 
-            {/* Buy Me a Coffee */}
+            {/* PIX */}
             <motion.a
-              href="https://www.buymeacoffee.com/xjhowx"
+              href="https://nubank.com.br/cobrar/ukbg2/68fac8e8-d309-45f5-88ba-4ea0c5a4f970"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="group bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/30 hover:border-yellow-500 rounded-2xl p-8 transition-all"
+              className="group bg-gradient-to-br from-teal-500/10 to-cyan-500/10 border-2 border-teal-500/30 hover:border-teal-400 rounded-2xl p-8 transition-all relative overflow-hidden"
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center group-hover:bg-yellow-500/30 transition-colors">
-                  <Coffee className="w-7 h-7 text-yellow-400 group-hover:text-yellow-300 transition-colors" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">
-                    Buy Me a Coffee
-                  </h3>
-                  <p className="text-sm text-yellow-500/70">Contribuição única</p>
-                </div>
+              {/* Bandeira Brasil Sutil */}
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <div className="w-full h-1/3 bg-green-500"></div>
+                <div className="w-full h-1/3 bg-yellow-500"></div>
+                <div className="w-full h-1/3 bg-blue-500"></div>
               </div>
-              <p className="text-slate-400 leading-relaxed">
-                Um cafézinho para ajudar nas longas noites de código e estudo. Qualquer valor é bem-vindo!
-              </p>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-teal-500/20 rounded-xl flex items-center justify-center group-hover:bg-teal-500/30 transition-colors">
+                    <Coffee className="w-7 h-7 text-teal-400 group-hover:text-teal-300 transition-colors" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-white group-hover:text-teal-400 transition-colors">
+                        PIX
+                      </h3>
+                      <span className="text-2xl">🇧🇷</span>
+                    </div>
+                    <p className="text-sm text-teal-500/70">Contribuição única</p>
+                  </div>
+                </div>
+                <p className="text-slate-400 leading-relaxed mb-4">
+                  Um cafézinho para ajudar nas longas noites de código e estudo. Qualquer valor é bem-vindo!
+                </p>
+                
+                {/* QR Code */}
+                <div className="bg-white rounded-xl p-4 inline-block">
+                  <img 
+                    src="/doe-pix.png" 
+                    alt="QR Code PIX" 
+                    className="w-32 h-32 object-contain"
+                  />
+                </div>
+                <p className="text-xs text-teal-400/70 mt-2">
+                  Escaneie o QR Code ou clique para abrir
+                </p>
+              </div>
             </motion.a>
           </div>
         </motion.div>
