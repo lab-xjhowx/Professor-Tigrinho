@@ -155,6 +155,15 @@ export const Home = () => {
       <main className="container mx-auto px-4 py-8">
         {/* Mobile: Flex container com ordem customizada | Desktop: Flow normal */}
         <div className="flex flex-col md:block space-y-0 md:space-y-0">
+          {/* Indicador visual para mobile (apenas para debug) */}
+          <div className="block md:hidden bg-red-500/20 border border-red-500/50 text-red-400 text-xs text-center py-1 px-3 rounded-lg mb-4 font-mono">
+            📱 MODO MOBILE ATIVO - Ordem: Banner → Stats → Saldo → Slot → Fase
+          </div>
+
+          {/* Indicador visual para desktop (apenas para debug) */}
+          <div className="hidden md:block bg-blue-500/20 border border-blue-500/50 text-blue-400 text-xs text-center py-1 px-3 rounded-lg mb-4 font-mono">
+            🖥️ MODO DESKTOP ATIVO - Grid 3 colunas
+          </div>
           
           {/* 1️⃣ Banner Educativo - Mobile: order-1 */}
           <motion.div
@@ -238,17 +247,6 @@ export const Home = () => {
                   onSpin={handleApostar}
                 />
               </motion.div>
-              
-              {/* 8️⃣ Education Center (mobile only) - Mobile: order-8 */}
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="md:hidden order-8"
-              >
-                <EducationCenter />
-              </motion.div>
             </div>
             
             {/* Right Column - Stats & Phase */}
@@ -275,8 +273,8 @@ export const Home = () => {
               >
                 <PhaseIndicator />
               </motion.div>
-              
-              {/* Education Center (desktop only) */}
+
+              {/* Education Center - Desktop: na coluna da direita */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -290,10 +288,10 @@ export const Home = () => {
           </div>
         </div>
       </main>
-      
+
       {/* Footer */}
       <Footer />
-      
+
       {/* Modals */}
       <TipsModal />
       <VipModal />

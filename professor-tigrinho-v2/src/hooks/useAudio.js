@@ -50,37 +50,79 @@ const SOUNDS = {
  */
 class Sound {
   constructor(src, volume = 1.0, fallbackBeep = null) {
-    this.audio = new Audio(src);
-    this.audio.volume = volume;
-    this.audio.preload = 'auto';
+    this.src = src;
+    this.volume = volume;
+    this.fallbackBeep = fallbackBeep;
+    this.audio = null;
     this.loaded = false;
     this.failed = false;
-    this.fallbackBeep = fallbackBeep;
-    
+    this.fileExists = false;
+
+    // Verificar se o arquivo existe primeiro
+    this.checkFileExists().then(exists => {
+      this.fileExists = exists;
+      if (exists) {
+        this.initializeAudio();
+      } else {
+        this.failed = true;
+        console.info(`🔇 Arquivo não encontrado: ${src} - usando beep sintetizado`);
+      }
+    });
+  }
+
+  async checkFileExists() {
+    try {
+      const response = await fetch(this.src, { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  initializeAudio() {
+    this.audio = new Audio(this.src);
+    this.audio.volume = this.volume;
+    this.audio.preload = 'auto';
+
     // Tentar carregar
     this.audio.addEventListener('canplaythrough', () => {
       this.loaded = true;
     }, { once: true });
-    
+
     this.audio.addEventListener('error', () => {
       this.failed = true;
-      console.info(`🎵 Usando beep sintetizado para: ${src.split('/').pop()}`);
+      console.info(`🎵 Usando beep sintetizado para: ${this.src.split('/').pop()}`);
     }, { once: true });
   }
   
   play() {
-    // Se falhou, usa beep sintetizado
-    if (this.failed && this.fallbackBeep) {
-      this.fallbackBeep();
+    // Se arquivo não existe ou falhou, usa beep sintetizado
+    if (!this.fileExists || this.failed) {
+      if (this.fallbackBeep) {
+        this.fallbackBeep();
+      }
       return;
     }
-    
+
+    // Se ainda não foi inicializado, inicializar agora
+    if (!this.audio) {
+      this.initializeAudio();
+    }
+
+    // Se ainda não carregou, usa beep
+    if (!this.loaded) {
+      if (this.fallbackBeep) {
+        this.fallbackBeep();
+      }
+      return;
+    }
+
     // Resetar para o início se já estiver tocando
     this.audio.currentTime = 0;
-    
+
     // Tentar tocar, ignorar erros de autoplay
     this.audio.play().catch(error => {
-      // Se autoplay foi bloqueado, usa beep como fallback
+      // Se autoplay foi bloqueado ou erro, usa beep como fallback
       if (this.fallbackBeep) {
         this.fallbackBeep();
       }
@@ -88,12 +130,16 @@ class Sound {
   }
   
   stop() {
-    this.audio.pause();
-    this.audio.currentTime = 0;
+    if (this.audio && this.loaded && !this.failed) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
   }
-  
+
   setVolume(volume) {
-    this.audio.volume = Math.max(0, Math.min(1, volume));
+    if (this.audio) {
+      this.audio.volume = Math.max(0, Math.min(1, volume));
+    }
   }
 }
 
