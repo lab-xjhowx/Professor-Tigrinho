@@ -265,13 +265,13 @@ export const Home = () => {
                 <PhaseIndicator />
               </motion.div>
 
-              {/* Education Center - Desktop: na coluna da direita */}
+              {/* 6️⃣ EducationCenter - Mobile: order-6 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.35 }}
-                className="hidden md:block"
+                className="order-6 md:order-none"
               >
                 <EducationCenter />
               </motion.div>
