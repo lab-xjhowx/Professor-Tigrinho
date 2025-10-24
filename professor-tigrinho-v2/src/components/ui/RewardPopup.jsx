@@ -121,8 +121,8 @@ export const RewardPopup = () => {
               
               {/* Info */}
               <div className="bg-primary-500/20 border border-primary-400/30 rounded-xl p-4 mb-6">
-                <p className="text-sm text-center text-slate-300">
-                  💡 <span className="font-semibold">Lembre-se:</span> Cassinos reais usam gamificação falsa para te manter jogando.
+                <p className="text-sm text-center text-slate-300 leading-relaxed">
+                  💡 <span className="font-semibold">Lembre-se:</span> É assim que cassinos online e apps de entretenimento ganham: eles usam técnicas pra te manter o máximo possível na tela.
                 </p>
               </div>
               
