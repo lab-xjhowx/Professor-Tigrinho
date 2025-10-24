@@ -24,11 +24,11 @@ export const processarAposta = (estadoAtual, valorAposta) => {
   // Deduzir aposta
   const novoSaldo = saldo - valorAposta;
   
-  // Determinar fase psicológica
-  const fase = determinarFase(totalJogadas, sequenciaPerdas, novoSaldo, saldoInicial);
+  // Determinar fase psicológica ANTES da jogada (para gerar o resultado com essa fase)
+  const faseParaJogada = determinarFase(totalJogadas, sequenciaPerdas, novoSaldo, saldoInicial);
   
-  // Gerar resultado
-  const { resultado, isVitoria, isNearMiss } = generateSlotResult(fase, true);
+  // Gerar resultado usando a fase atual
+  const { resultado, isVitoria, isNearMiss } = generateSlotResult(faseParaJogada, true);
   
   // Calcular ganhos
   let ganho = 0;
@@ -38,6 +38,14 @@ export const processarAposta = (estadoAtual, valorAposta) => {
     ganho = valorAposta * resultado[0].multiplicador;
     novoSaldoFinal = novoSaldo + ganho;
   }
+  
+  // RECALCULAR fase DEPOIS do resultado final para exibição correta
+  const faseAposJogada = determinarFase(
+    totalJogadas + 1,  // Próxima jogada
+    isVitoria ? 0 : sequenciaPerdas + 1,  // Atualiza sequência
+    novoSaldoFinal,  // Saldo FINAL (após ganhos)
+    saldoInicial
+  );
   
   // Atualizar estatísticas
   const novasEstatisticas = {
@@ -65,7 +73,7 @@ export const processarAposta = (estadoAtual, valorAposta) => {
     isNearMiss,
     ganho: isVitoria ? ganho : 0,
     saldoApos: novoSaldoFinal,
-    fase
+    fase: faseParaJogada  // Fase usada para gerar o resultado
   };
   
   const novoHistorico = [novaJogada, ...historicoApostas].slice(0, 50); // Manter últimas 50
@@ -89,7 +97,7 @@ export const processarAposta = (estadoAtual, valorAposta) => {
       saldo: novoSaldoFinal,
       ...novasEstatisticas,
       historicoApostas: novoHistorico,
-      faseAtual: fase
+      faseAtual: faseAposJogada  // BUGFIX: Usa fase APÓS resultado
     }
   };
 };

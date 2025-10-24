@@ -175,12 +175,14 @@ export const determinarFase = (totalJogadas, sequenciaPerdas, saldoAtual, saldoI
     return 'hook';
   }
   
-  // Loss Phase: muitas perdas seguidas ou saldo baixo
-  if (sequenciaPerdas >= 5 || saldoAtual < saldoInicial * 0.5) {
+  // Loss Phase: muitas perdas seguidas OU saldo muito baixo (<30%)
+  // BUGFIX: Só entra em loss se tiver perdas seguidas OU saldo MUITO baixo
+  // Antes era <50%, agora é <30% para dar mais "folga" após vitórias
+  if (sequenciaPerdas >= 5 || saldoAtual < saldoInicial * 0.3) {
     return 'loss';
   }
   
-  // Normal Phase
+  // Normal Phase: entre 30% e sem sequência de perdas
   return 'normal';
 };
 
