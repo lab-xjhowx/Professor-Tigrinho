@@ -4,7 +4,8 @@
  */
 
 import { motion } from 'framer-motion';
-import { Heart, Github, Twitter, Mail, AlertTriangle } from 'lucide-react';
+import { Github, Instagram, Linkedin, AlertTriangle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
   return (
@@ -18,12 +19,9 @@ export const Footer = () => {
             </h3>
             <p className="text-sm text-slate-400 mb-4">
               Simulador educativo que demonstra táticas psicológicas em jogos de azar.
-              100% open-source e transparente.
             </p>
-            <div className="flex items-center gap-2 text-xs text-slate-500">
-              <span>Feito com</span>
-              <Heart className="w-4 h-4 text-red-400 fill-red-400" />
-              <span>por Jonathan</span>
+            <div className="text-xs text-slate-500">
+              <span>Desenvolvido por Jonathan</span>
             </div>
           </div>
           
@@ -34,24 +32,19 @@ export const Footer = () => {
             </h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
-                <a href="/privacy" className="hover:text-primary-400 transition-colors">
+                <Link to="/privacy" className="hover:text-primary-400 transition-colors">
                   Política de Privacidade
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/terms" className="hover:text-primary-400 transition-colors">
+                <Link to="/terms" className="hover:text-primary-400 transition-colors">
                   Termos de Uso
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="https://github.com/jonathan/professor-tigrinho-v2" className="hover:text-primary-400 transition-colors">
-                  Código Fonte (GitHub)
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <Link to="/contribute" className="hover:text-primary-400 transition-colors">
                   Como Contribuir
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -62,9 +55,9 @@ export const Footer = () => {
               Contato
             </h4>
             <div className="flex items-center gap-3 mb-4">
-              <SocialLink href="https://github.com/jonathan" icon={<Github className="w-5 h-5" />} />
-              <SocialLink href="https://twitter.com/xjhowx" icon={<Twitter className="w-5 h-5" />} />
-              <SocialLink href="mailto:contato@jonathan.dev" icon={<Mail className="w-5 h-5" />} />
+              <SocialLink href="https://github.com/lab-xjhowx" icon={<Github className="w-5 h-5" />} />
+              <SocialLink href="https://instagram.com/xjhowx.lab" icon={<Instagram className="w-5 h-5" />} />
+              <SocialLink href="https://www.linkedin.com/in/xjhowx/" icon={<Linkedin className="w-5 h-5" />} />
             </div>
             <p className="text-xs text-slate-500">
               @xjhowx
@@ -82,7 +75,15 @@ export const Footer = () => {
                 Este é um simulador educativo. Jogos de azar com dinheiro real podem causar:
                 perdas financeiras, dependência psicológica e problemas familiares.
                 <span className="block mt-2 font-semibold">
-                  🆘 Precisa de ajuda? CVV: 188 • Jogadores Anônimos: jogadoresanonimos.com.br
+                  🆘 Precisa de ajuda? CVV: 188 • Jogadores Anônimos:{' '}
+                  <a 
+                    href="https://www.jogadoresanonimos.com.br" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-yellow-400 hover:text-yellow-300 underline transition-colors"
+                  >
+                    jogadoresanonimos.com.br
+                  </a>
                 </span>
               </p>
             </div>
