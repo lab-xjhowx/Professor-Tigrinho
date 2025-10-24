@@ -41,6 +41,7 @@ export const Home = () => {
   const [ultimoResultado, setUltimoResultado] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [confettiTrigger, setConfettiTrigger] = useState(false);
+  const [primeiraJogada, setPrimeiraJogada] = useState(false);
   
   const { 
     saldo, 
@@ -70,15 +71,17 @@ export const Home = () => {
     // startAmbient();
   }, []);
   
-  // Sistema de "Tempo de Vida Capturado" - Popup de 10 em 10 minutos
+  // Sistema de "Tempo de Vida Capturado" - Só inicia APÓS primeira jogada
   useEffect(() => {
+    if (!primeiraJogada) return; // Só inicia se o usuário já jogou
+
     const startTime = Date.now();
     let intervaloAtual = 1; // Começa no primeiro intervalo (5 min)
 
     // Para teste rápido em dev, mude para true
     const MODO_TESTE = false;
-    const PRIMEIRO_POPUP = MODO_TESTE ? 30000 : 5 * 60 * 1000; // 5 min primeiro popup
-    const INTERVALO_ENTRE_POPUPS = MODO_TESTE ? 60000 : 10 * 60 * 1000; // 10 min entre popups
+    const PRIMEIRO_POPUP = MODO_TESTE ? 10000 : 5 * 60 * 1000; // 5 min primeiro popup
+    const INTERVALO_ENTRE_POPUPS = MODO_TESTE ? 20000 : 10 * 60 * 1000; // 10 min entre popups
 
     const checkTempoGasto = () => {
       const tempoDecorrido = Date.now() - startTime;
@@ -109,21 +112,27 @@ export const Home = () => {
     const interval = setInterval(checkTempoGasto, 30000);
 
     // Mensagem inicial no console
-    console.log('⏱️ Sistema de tracking de tempo iniciado. Popup aparecerá aos 5, 15, 25... minutos');
+    console.log('⏱️ Sistema de tracking de tempo iniciado APÓS primeira jogada. Popup aparecerá aos 5, 15, 25... minutos');
 
     return () => clearInterval(interval);
-  }, []);
+  }, [primeiraJogada]); // Dependência: primeiraJogada
   
   // Handler de aposta
   const handleApostar = async (valor) => {
     if (isSpinning || saldo < valor) return;
-    
+
+    // Marcar primeira jogada se ainda não foi feita
+    if (!primeiraJogada) {
+      setPrimeiraJogada(true);
+      console.log('🎮 Primeira jogada detectada! Sistema de popups iniciado.');
+    }
+
     // Som de spin
     playSpin();
-    
+
     // Esconder resultado anterior
     setShowResult(false);
-    
+
     // Processar aposta
     const resultado = await apostar(valor);
     
@@ -190,13 +199,13 @@ export const Home = () => {
             </div>
           </motion.div>
           
-          {/* Game Layout Container - Desktop: Grid 3 colunas | Mobile: Continua ordem flexbox */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+          {/* Game Layout Container - Desktop: Grid 3 colunas | Mobile: Flexbox PURO com ordens */}
+          <div className="flex flex-col md:grid md:grid-cols-3 md:gap-8">
 
             {/* Left Column - Desktop: Slot Machine & Controls | Mobile: Ordem flexbox */}
-            <div className="md:col-span-2 flex flex-col space-y-4 md:space-y-6">
-              
-              {/* Saldo Atual - Desktop: normal | Mobile: order-3 */}
+            <div className="flex flex-col space-y-4 md:space-y-6">
+
+              {/* 3️⃣ Saldo Atual - Mobile: order-3 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -206,8 +215,8 @@ export const Home = () => {
               >
                 <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
               </motion.div>
-              
-              {/* Slot Machine - Desktop: normal | Mobile: order-4 */}
+
+              {/* 4️⃣ Slot Machine - Mobile: order-4 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -222,19 +231,8 @@ export const Home = () => {
                   isNearMiss={ultimoResultado?.isNearMiss}
                 />
               </motion.div>
-              
-              {/* Resultado da Jogada - Desktop: normal | Mobile: order-6 */}
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4, delay: 0.25 }}
-                className="order-6 md:order-none"
-              >
-                <ResultDisplay resultado={ultimoResultado} show={showResult} />
-              </motion.div>
-              
-              {/* Controles de Aposta - Desktop: normal | Mobile: order-5 */}
+
+              {/* 5️⃣ Controles de Aposta - Mobile: order-5 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -248,12 +246,23 @@ export const Home = () => {
                   onSpin={handleApostar}
                 />
               </motion.div>
+
+              {/* 6️⃣ Resultado da Jogada - Mobile: order-6 */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.4, delay: 0.25 }}
+                className="order-6 md:order-none"
+              >
+                <ResultDisplay resultado={ultimoResultado} show={showResult} />
+              </motion.div>
             </div>
-            
+
             {/* Right Column - Desktop: Stats & Phase | Mobile: Ordem flexbox */}
             <div className="flex flex-col space-y-4 md:space-y-6">
-              
-              {/* Stats - Desktop: normal | Mobile: order-2 */}
+
+              {/* 2️⃣ Stats/Nível de Consciência - Mobile: order-2 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -263,8 +272,8 @@ export const Home = () => {
               >
                 <Stats />
               </motion.div>
-              
-              {/* Estado Psicológico - Desktop: normal | Mobile: order-7 */}
+
+              {/* 7️⃣ Estado Psicológico - Mobile: order-7 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -275,7 +284,7 @@ export const Home = () => {
                 <PhaseIndicator />
               </motion.div>
 
-              {/* EducationCenter - Desktop: normal | Mobile: order-8 */}
+              {/* 8️⃣ EducationCenter - Mobile: order-8 */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}

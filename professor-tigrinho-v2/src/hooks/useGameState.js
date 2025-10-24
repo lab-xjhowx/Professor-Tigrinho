@@ -10,7 +10,7 @@ import { calcularPontosConsciencia, determinarNivelConsciencia, gerarMissaoDiari
 export const useGameState = create((set, get) => ({
   // Estado inicial
   ...resetarJogo(100),
-  
+
   // Estado de UI
   isSpinning: false,
   showRewardPopup: false,
@@ -18,68 +18,74 @@ export const useGameState = create((set, get) => ({
   showTipsModal: false,
   showVipModal: false,
   vipUnlocked: false,
-  
+
+  // Estado para controlar primeira jogada
+  primeiraJogada: true,
+
   // Conquistas e missões
   conquistasDesbloqueadas: [],
   missaoAtual: gerarMissaoDiaria(),
   progressoMissao: 0,
-  
+
   // Configurações
   soundEnabled: true,
   effectsEnabled: true,
-  
+
   // Actions
-  
+
   /**
    * Realiza uma aposta
    */
   apostar: async (valorAposta) => {
     const estado = get();
-    
+
     if (estado.isSpinning) return;
-    
+
     set({ isSpinning: true });
-    
+
     // Processar aposta
     const resultado = processarAposta(estado, valorAposta);
-    
+
     if (!resultado.sucesso) {
       set({ isSpinning: false });
       return resultado;
     }
-    
+
     // Atualizar estado
     set({
       ...resultado.novoEstado,
-      isSpinning: false
+      isSpinning: false,
+      primeiraJogada: false // Marca que não é mais primeira jogada
     });
-    
-    // Verificar conquistas
-    const novasConquistas = verificarConquistas(
-      resultado.novoEstado,
-      estado.conquistasDesbloqueadas
-    );
-    
-    if (novasConquistas.length > 0) {
-      set(state => ({
-        conquistasDesbloqueadas: [...state.conquistasDesbloqueadas, ...novasConquistas],
-        showRewardPopup: true,
-        rewardMessage: `🏆 Nova conquista desbloqueada!`
-      }));
+
+    // NÃO verificar conquistas na primeira jogada para evitar popups
+    if (!estado.primeiraJogada) {
+      const novasConquistas = verificarConquistas(
+        resultado.novoEstado,
+        estado.conquistasDesbloqueadas
+      );
+
+      if (novasConquistas.length > 0) {
+        set(state => ({
+          conquistasDesbloqueadas: [...state.conquistasDesbloqueadas, ...novasConquistas],
+          showRewardPopup: true,
+          rewardMessage: `🏆 Nova conquista desbloqueada!`
+        }));
+      }
     }
-    
-    // Atualizar progresso da missão
+
+    // Atualizar progresso da missão (sem popup na primeira jogada)
     get().atualizarProgressoMissao(resultado.resultado);
-    
-    // Desbloquear VIP após 20 jogadas
-    if (resultado.novoEstado.totalJogadas >= 20 && !estado.vipUnlocked) {
-      set({ 
+
+    // Desbloquear VIP após 20 jogadas (sem popup na primeira jogada)
+    if (resultado.novoEstado.totalJogadas >= 20 && !estado.vipUnlocked && !estado.primeiraJogada) {
+      set({
         vipUnlocked: true,
         showRewardPopup: true,
         rewardMessage: '🌟 Modo VIP Desbloqueado! Acesse conteúdo exclusivo.'
       });
     }
-    
+
     return resultado;
   },
   
@@ -92,7 +98,8 @@ export const useGameState = create((set, get) => ({
       isSpinning: false,
       conquistasDesbloqueadas: [],
       missaoAtual: gerarMissaoDiaria(),
-      progressoMissao: 0
+      progressoMissao: 0,
+      primeiraJogada: true // Reset primeira jogada
     });
   },
   
@@ -150,7 +157,7 @@ export const useGameState = create((set, get) => ({
    * Atualizar progresso da missão
    */
   atualizarProgressoMissao: (jogada) => {
-    const { missaoAtual, progressoMissao } = get();
+    const { missaoAtual, progressoMissao, primeiraJogada } = get();
     
     let novoProgresso = progressoMissao;
     
@@ -165,8 +172,8 @@ export const useGameState = create((set, get) => ({
       novoProgresso++;
     }
     
-    // Missão completa
-    if (novoProgresso >= missaoAtual.objetivo) {
+    // Missão completa - NÃO mostrar popup na primeira jogada
+    if (novoProgresso >= missaoAtual.objetivo && !primeiraJogada) {
       set({
         progressoMissao: 0,
         missaoAtual: gerarMissaoDiaria(),
