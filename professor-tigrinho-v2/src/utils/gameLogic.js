@@ -37,6 +37,22 @@ export const processarAposta = (estadoAtual, valorAposta) => {
   if (isVitoria) {
     ganho = valorAposta * resultado[0].multiplicador;
     novoSaldoFinal = novoSaldo + ganho;
+    
+    // Debug
+    console.log('🎉 VITÓRIA!', {
+      saldoAntes: saldo,
+      aposta: valorAposta,
+      saldoAposAposta: novoSaldo,
+      multiplicador: resultado[0].multiplicador,
+      ganho: ganho,
+      saldoFinal: novoSaldoFinal
+    });
+  } else {
+    console.log('❌ PERDA', {
+      saldoAntes: saldo,
+      aposta: valorAposta,
+      saldoFinal: novoSaldoFinal
+    });
   }
   
   // Atualizar estatísticas
