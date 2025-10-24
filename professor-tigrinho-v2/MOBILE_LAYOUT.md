@@ -61,13 +61,13 @@ Criar uma experiência **intuitiva e pedagógica** no mobile, priorizando conte�
 ### 1. **Flexbox com `order-*` Classes**
 
 ```jsx
-<div className="flex flex-col lg:block">
-  <div className="order-1 lg:order-none">Banner</div>
-  <div className="order-2 lg:order-none">Stats</div>
-  <div className="order-3 lg:order-none">Saldo</div>
-  <div className="order-4 lg:order-none">Slot + Controles</div>
-  <div className="order-5 lg:order-none">Fase Psicológica</div>
-  <div className="order-8 lg:order-none">Educação</div>
+<div className="flex flex-col md:block">
+  <div className="order-1 md:order-none">Banner</div>
+  <div className="order-2 md:order-none">Stats</div>
+  <div className="order-3 md:order-none">Saldo</div>
+  <div className="order-4 md:order-none">Slot + Controles</div>
+  <div className="order-5 md:order-none">Fase Psicológica</div>
+  <div className="order-8 md:order-none">Educação</div>
 </div>
 ```
 
@@ -213,7 +213,7 @@ Mobile:
 // tailwind.config.js
 screens: {
   'sm': '640px',
-  'md': '768px',  // ← Nosso breakpoint principal
+  'md': '768px',  // ← Nosso breakpoint principal (mobile → desktop)
   'lg': '1024px',
   'xl': '1280px',
 }
@@ -258,13 +258,15 @@ Ambos:
 
 ## 📝 Changelog
 
-### v2.0.1 - Mobile Layout Optimization
-- ✅ Reorganização de ordem mobile com Flexbox
+### v2.0.2 - Mobile Layout & Audio Fix
+- ✅ Reorganização de ordem mobile com Flexbox (md:768px)
 - ✅ Animações `whileInView` com Framer Motion
 - ✅ Espaçamento responsivo (`space-y-4` → `space-y-6`)
 - ✅ Delays escalonados para entrada suave
 - ✅ Desktop layout preservado (zero mudanças)
 - ✅ Documentação completa (`MOBILE_LAYOUT.md`)
+- ✅ Arquivos de som placeholder criados
+- ✅ Labels de debug para teste mobile
 
 ---
 

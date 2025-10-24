@@ -154,7 +154,7 @@ export const Home = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         {/* Mobile: Flex container com ordem customizada | Desktop: Flow normal */}
-        <div className="flex flex-col lg:block space-y-0 lg:space-y-0">
+        <div className="flex flex-col md:block space-y-0 md:space-y-0">
           
           {/* 1️⃣ Banner Educativo - Mobile: order-1 */}
           <motion.div
@@ -162,9 +162,9 @@ export const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.4 }}
-            className="order-1 mb-4 lg:mb-8"
+            className="order-1 mb-4 md:mb-8"
           >
-            <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="relative bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-3xl">⚠️</span>
                 <h2 className="text-2xl font-display font-bold text-yellow-300">
@@ -182,9 +182,9 @@ export const Home = () => {
           </motion.div>
           
           {/* Game Layout Container */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 order-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 order-2">
             {/* Left Column - Slot Machine & Controls */}
-            <div className="lg:col-span-2 flex flex-col space-y-4 lg:space-y-6">
+            <div className="md:col-span-2 flex flex-col space-y-4 md:space-y-6">
               
               {/* 3️⃣ Saldo Atual - Mobile: order-3 */}
               <motion.div
@@ -192,9 +192,15 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="order-3 lg:order-none"
+                className="order-3 md:order-none"
               >
-                <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
+                <div className="relative">
+                  {/* Debug label para mobile */}
+                  <div className="block md:hidden text-xs text-blue-400 text-center mb-1 font-mono">
+                    3️⃣ Saldo Atual
+                  </div>
+                  <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
+                </div>
               </motion.div>
               
               {/* 4️⃣ Slot Machine - Mobile: order-4 */}
@@ -203,14 +209,20 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.15 }}
-                className="order-4 lg:order-none"
+                className="order-4 md:order-none"
               >
-                <SlotMachine
-                  resultado={ultimoResultado?.animais}
-                  isSpinning={isSpinning}
-                  isWin={ultimoResultado?.isVitoria}
-                  isNearMiss={ultimoResultado?.isNearMiss}
-                />
+                <div className="relative">
+                  {/* Debug label para mobile */}
+                  <div className="block md:hidden text-xs text-purple-400 text-center mb-1 font-mono">
+                    4️⃣ Slot Machine + Controles
+                  </div>
+                  <SlotMachine
+                    resultado={ultimoResultado?.animais}
+                    isSpinning={isSpinning}
+                    isWin={ultimoResultado?.isVitoria}
+                    isNearMiss={ultimoResultado?.isNearMiss}
+                  />
+                </div>
               </motion.div>
               
               {/* Resultado da Jogada */}
@@ -219,7 +231,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="order-4 lg:order-none"
+                className="order-4 md:order-none"
               >
                 <ResultDisplay resultado={ultimoResultado} show={showResult} />
               </motion.div>
@@ -230,7 +242,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.25 }}
-                className="order-4 lg:order-none"
+                className="order-4 md:order-none"
               >
                 <BetControls
                   saldo={saldo}
@@ -245,14 +257,20 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.3 }}
-                className="lg:hidden order-8"
+                className="md:hidden order-8"
               >
-                <EducationCenter />
+                <div className="relative">
+                  {/* Debug label para mobile */}
+                  <div className="block md:hidden text-xs text-yellow-400 text-center mb-1 font-mono">
+                    8️⃣ Centro Educacional
+                  </div>
+                  <EducationCenter />
+                </div>
               </motion.div>
             </div>
             
             {/* Right Column - Stats & Phase */}
-            <div className="flex flex-col space-y-4 lg:space-y-6">
+            <div className="flex flex-col space-y-4 md:space-y-6">
               
               {/* 2️⃣ Nível de Consciência (Stats - parte superior) - Mobile: order-2 */}
               <motion.div
@@ -260,9 +278,15 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="order-2 lg:order-none"
+                className="order-2 md:order-none"
               >
-                <Stats />
+                <div className="relative">
+                  {/* Debug label para mobile */}
+                  <div className="block md:hidden text-xs text-green-400 text-center mb-1 font-mono">
+                    2️⃣ Nível de Consciência
+                  </div>
+                  <Stats />
+                </div>
               </motion.div>
               
               {/* 5️⃣ Estado Psicológico - Mobile: order-5 */}
@@ -271,9 +295,15 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.3 }}
-                className="order-5 lg:order-none"
+                className="order-5 md:order-none"
               >
-                <PhaseIndicator />
+                <div className="relative">
+                  {/* Debug label para mobile */}
+                  <div className="block md:hidden text-xs text-red-400 text-center mb-1 font-mono">
+                    5️⃣ Estado Psicológico
+                  </div>
+                  <PhaseIndicator />
+                </div>
               </motion.div>
               
               {/* Education Center (desktop only) */}
@@ -282,7 +312,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4, delay: 0.35 }}
-                className="hidden lg:block"
+                className="hidden md:block"
               >
                 <EducationCenter />
               </motion.div>
