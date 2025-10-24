@@ -155,15 +155,6 @@ export const Home = () => {
       <main className="container mx-auto px-4 py-8">
         {/* Mobile: Flex container com ordem customizada | Desktop: Flow normal */}
         <div className="flex flex-col md:block space-y-0 md:space-y-0">
-          {/* Indicador visual para mobile (apenas para debug) */}
-          <div className="block md:hidden bg-red-500/20 border border-red-500/50 text-red-400 text-xs text-center py-1 px-3 rounded-lg mb-4 font-mono">
-            📱 MODO MOBILE ATIVO - Ordem: Banner → Stats → Saldo → Slot → Fase
-          </div>
-
-          {/* Indicador visual para desktop (apenas para debug) */}
-          <div className="hidden md:block bg-blue-500/20 border border-blue-500/50 text-blue-400 text-xs text-center py-1 px-3 rounded-lg mb-4 font-mono">
-            🖥️ MODO DESKTOP ATIVO - Grid 3 colunas
-          </div>
           
           {/* 1️⃣ Banner Educativo - Mobile: order-1 */}
           <motion.div
