@@ -87,7 +87,7 @@ export const Home = () => {
         const { showReward } = useGameState.getState();
         
         showReward(
-          `⏰ Já ganhamos ${MODO_TESTE ? Math.round(minutosReais) : minutosReais} minutos da sua vida! Continue aqui com a gente, conhecendo nosso projeto, você ainda vai se surpreender 💜`
+          `💜 Uau, meus parabéns!\nPerdemos juntos ${MODO_TESTE ? Math.round(minutosReais) : minutosReais} minutos da sua vida 💀\n\n⏰ Seu tempo vale dinheiro — só não pra você! 💸\n\nÉ assim que cassinos online e apps de entretenimento ganham: eles usam técnicas pra te manter o máximo possível na tela.\n\nAqui, pelo menos, você descobre como esse truque funciona 😉`
         );
         
         console.log(`🕐 Popup de tempo mostrado: ${minutosReais} minutos`);

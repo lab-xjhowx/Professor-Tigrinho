@@ -95,7 +95,7 @@ export const RewardPopup = () => {
               </motion.h2>
               
               {/* Message */}
-              <p className="text-xl text-center text-white mb-6 font-semibold">
+              <p className="text-xl text-center text-white mb-6 font-semibold whitespace-pre-line leading-relaxed">
                 {rewardMessage || gerarRecompensaFalsa()}
               </p>
               
