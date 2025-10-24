@@ -188,11 +188,11 @@ export const Contribute = () => {
               </p>
               
               {/* GitHub Sponsors Image */}
-              <div className="bg-white rounded-xl p-4 inline-block">
+              <div className="relative inline-block">
                 <img 
                   src="/GitHub-Sponsors.png" 
                   alt="GitHub Sponsors" 
-                  className="w-32 h-32 object-contain"
+                  className="w-32 h-32 object-contain drop-shadow-[0_0_15px_rgba(139,92,246,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(139,92,246,0.8)] transition-all duration-300"
                   draggable="false"
                 />
               </div>
@@ -237,7 +237,7 @@ export const Contribute = () => {
                 </p>
                 
                 {/* QR Code */}
-                <div className="bg-white rounded-xl p-4 inline-block">
+                <div className="relative inline-block bg-white rounded-xl p-2">
                   <img 
                     src="/doe-pix.png" 
                     alt="QR Code PIX" 
