@@ -194,13 +194,7 @@ export const Home = () => {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="order-3 md:order-none"
               >
-                <div className="relative">
-                  {/* Debug label para mobile */}
-                  <div className="block md:hidden text-xs text-blue-400 text-center mb-1 font-mono">
-                    3️⃣ Saldo Atual
-                  </div>
-                  <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
-                </div>
+                <BalanceDisplay saldo={saldo} saldoInicial={saldoInicial} />
               </motion.div>
               
               {/* 4️⃣ Slot Machine - Mobile: order-4 */}
@@ -211,18 +205,12 @@ export const Home = () => {
                 transition={{ duration: 0.4, delay: 0.15 }}
                 className="order-4 md:order-none"
               >
-                <div className="relative">
-                  {/* Debug label para mobile */}
-                  <div className="block md:hidden text-xs text-purple-400 text-center mb-1 font-mono">
-                    4️⃣ Slot Machine + Controles
-                  </div>
-                  <SlotMachine
-                    resultado={ultimoResultado?.animais}
-                    isSpinning={isSpinning}
-                    isWin={ultimoResultado?.isVitoria}
-                    isNearMiss={ultimoResultado?.isNearMiss}
-                  />
-                </div>
+                <SlotMachine
+                  resultado={ultimoResultado?.animais}
+                  isSpinning={isSpinning}
+                  isWin={ultimoResultado?.isVitoria}
+                  isNearMiss={ultimoResultado?.isNearMiss}
+                />
               </motion.div>
               
               {/* Resultado da Jogada */}
@@ -259,13 +247,7 @@ export const Home = () => {
                 transition={{ duration: 0.4, delay: 0.3 }}
                 className="md:hidden order-8"
               >
-                <div className="relative">
-                  {/* Debug label para mobile */}
-                  <div className="block md:hidden text-xs text-yellow-400 text-center mb-1 font-mono">
-                    8️⃣ Centro Educacional
-                  </div>
-                  <EducationCenter />
-                </div>
+                <EducationCenter />
               </motion.div>
             </div>
             
@@ -280,13 +262,7 @@ export const Home = () => {
                 transition={{ duration: 0.4, delay: 0.05 }}
                 className="order-2 md:order-none"
               >
-                <div className="relative">
-                  {/* Debug label para mobile */}
-                  <div className="block md:hidden text-xs text-green-400 text-center mb-1 font-mono">
-                    2️⃣ Nível de Consciência
-                  </div>
-                  <Stats />
-                </div>
+                <Stats />
               </motion.div>
               
               {/* 5️⃣ Estado Psicológico - Mobile: order-5 */}
@@ -297,13 +273,7 @@ export const Home = () => {
                 transition={{ duration: 0.4, delay: 0.3 }}
                 className="order-5 md:order-none"
               >
-                <div className="relative">
-                  {/* Debug label para mobile */}
-                  <div className="block md:hidden text-xs text-red-400 text-center mb-1 font-mono">
-                    5️⃣ Estado Psicológico
-                  </div>
-                  <PhaseIndicator />
-                </div>
+                <PhaseIndicator />
               </motion.div>
               
               {/* Education Center (desktop only) */}
