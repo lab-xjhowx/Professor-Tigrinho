@@ -70,38 +70,47 @@ export const Home = () => {
     // startAmbient();
   }, []);
   
-  // Sistema de "Tempo de Vida Capturado" - Popup a cada 5 minutos
+  // Sistema de "Tempo de Vida Capturado" - Popup de 10 em 10 minutos
   useEffect(() => {
     const startTime = Date.now();
     let intervaloAtual = 1; // Começa no primeiro intervalo (5 min)
-    
+
     // Para teste rápido em dev, mude para true
     const MODO_TESTE = false;
-    const INTERVALO_BASE = MODO_TESTE ? 30000 : 5 * 60 * 1000; // 30s em teste, 5min em prod
-    
+    const PRIMEIRO_POPUP = MODO_TESTE ? 30000 : 5 * 60 * 1000; // 5 min primeiro popup
+    const INTERVALO_ENTRE_POPUPS = MODO_TESTE ? 60000 : 10 * 60 * 1000; // 10 min entre popups
+
     const checkTempoGasto = () => {
       const tempoDecorrido = Date.now() - startTime;
-      const proximoMilestone = intervaloAtual * INTERVALO_BASE;
-      
+
+      // Lógica: Primeiro popup aos 5 min, depois de 10 em 10 min
+      let proximoMilestone;
+      if (intervaloAtual === 1) {
+        proximoMilestone = PRIMEIRO_POPUP; // 5 minutos
+      } else {
+        // Depois do primeiro: 5 min + 10 min * (intervalos - 1)
+        proximoMilestone = PRIMEIRO_POPUP + ((intervaloAtual - 1) * INTERVALO_ENTRE_POPUPS);
+      }
+
       if (tempoDecorrido >= proximoMilestone) {
-        const minutosReais = intervaloAtual * (MODO_TESTE ? 0.5 : 5);
+        const minutosReais = intervaloAtual === 1 ? 5 : 5 + ((intervaloAtual - 1) * 10);
         const { showReward } = useGameState.getState();
-        
+
         showReward(
-          `💜 Uau, meus parabéns!\nPerdemos juntos ${MODO_TESTE ? Math.round(minutosReais) : minutosReais} minutos da sua vida 💀\n\n⏰ Seu tempo vale dinheiro — só não pra você! 💸\n\nAqui, pelo menos, você descobre como esse truque funciona 😉`
+          `💜 Uau, meus parabéns!\nPerdemos juntos ${minutosReais} minutos da sua vida 💀\n\n⏰ Seu tempo vale dinheiro — só não pra você! 💸\n\nAqui, pelo menos, você descobre como esse truque funciona 😉`
         );
-        
+
         console.log(`🕐 Popup de tempo mostrado: ${minutosReais} minutos`);
-        intervaloAtual++; // Próximo milestone (10, 15, 20...)
+        intervaloAtual++; // Próximo milestone (15, 25, 35...)
       }
     };
-    
+
     // Checar a cada 30 segundos
     const interval = setInterval(checkTempoGasto, 30000);
-    
+
     // Mensagem inicial no console
-    console.log('⏱️ Sistema de tracking de tempo iniciado. Popup aparecerá aos 5, 10, 15... minutos');
-    
+    console.log('⏱️ Sistema de tracking de tempo iniciado. Popup aparecerá aos 5, 15, 25... minutos');
+
     return () => clearInterval(interval);
   }, []);
   
