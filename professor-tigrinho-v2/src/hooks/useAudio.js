@@ -49,12 +49,13 @@ const SOUNDS = {
  * Classe para gerenciar sons individuais com HTML5 Audio
  */
 class Sound {
-  constructor(src, volume = 1.0) {
+  constructor(src, volume = 1.0, fallbackBeep = null) {
     this.audio = new Audio(src);
     this.audio.volume = volume;
     this.audio.preload = 'auto';
     this.loaded = false;
     this.failed = false;
+    this.fallbackBeep = fallbackBeep;
     
     // Tentar carregar
     this.audio.addEventListener('canplaythrough', () => {
@@ -63,21 +64,25 @@ class Sound {
     
     this.audio.addEventListener('error', () => {
       this.failed = true;
-      console.warn(`🔇 Som não disponível: ${src} (funcionando silenciosamente)`);
+      console.info(`🎵 Usando beep sintetizado para: ${src.split('/').pop()}`);
     }, { once: true });
   }
   
   play() {
-    if (this.failed) return; // Falhou ao carregar, ignora silenciosamente
+    // Se falhou, usa beep sintetizado
+    if (this.failed && this.fallbackBeep) {
+      this.fallbackBeep();
+      return;
+    }
     
     // Resetar para o início se já estiver tocando
     this.audio.currentTime = 0;
     
     // Tentar tocar, ignorar erros de autoplay
     this.audio.play().catch(error => {
-      // Navegador bloqueou autoplay - normal, não é erro crítico
-      if (error.name !== 'NotAllowedError') {
-        console.warn('🔇 Audio play blocked:', error.message);
+      // Se autoplay foi bloqueado, usa beep como fallback
+      if (this.fallbackBeep) {
+        this.fallbackBeep();
       }
     });
   }
@@ -92,6 +97,45 @@ class Sound {
   }
 }
 
+/**
+ * Gerador de beeps com Web Audio API
+ */
+class BeepGenerator {
+  constructor() {
+    this.audioContext = null;
+    try {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
+      console.warn('🔇 Web Audio API não disponível');
+    }
+  }
+  
+  beep(frequency = 440, duration = 100, volume = 0.3) {
+    if (!this.audioContext) return;
+    
+    try {
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
+      
+      oscillator.start(this.audioContext.currentTime);
+      oscillator.stop(this.audioContext.currentTime + duration / 1000);
+    } catch (e) {
+      // Silencioso se falhar
+    }
+  }
+}
+
+const beepGen = new BeepGenerator();
+
 export const useAudio = () => {
   const soundsRef = useRef({});
   const soundEnabled = useGameState(state => state.soundEnabled);
@@ -102,11 +146,37 @@ export const useAudio = () => {
     if (initializedRef.current) return;
     initializedRef.current = true;
     
-    // Criar instâncias de sons
+    // Definir beeps de fallback para cada tipo de som
+    const beeps = {
+      spin: () => beepGen.beep(440, 150, 0.2),
+      click: () => beepGen.beep(800, 50, 0.15),
+      win: () => {
+        beepGen.beep(523, 100, 0.3);
+        setTimeout(() => beepGen.beep(659, 100, 0.3), 100);
+        setTimeout(() => beepGen.beep(784, 150, 0.4), 200);
+      },
+      bigWin: () => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => beepGen.beep(523 + (i * 50), 80, 0.3), i * 80);
+        }
+      },
+      lose: () => beepGen.beep(200, 80, 0.1),
+      nearMiss: () => {
+        beepGen.beep(440, 100, 0.2);
+        setTimeout(() => beepGen.beep(400, 150, 0.2), 120);
+      },
+      achievement: () => {
+        beepGen.beep(659, 100, 0.3);
+        setTimeout(() => beepGen.beep(784, 100, 0.3), 100);
+        setTimeout(() => beepGen.beep(988, 150, 0.4), 200);
+      }
+    };
+    
+    // Criar instâncias de sons com fallback para beeps
     Object.keys(SOUNDS).forEach(key => {
       try {
         const config = SOUNDS[key];
-        soundsRef.current[key] = new Sound(config.src, config.volume);
+        soundsRef.current[key] = new Sound(config.src, config.volume, beeps[key]);
       } catch (error) {
         console.warn(`⚠️ Erro ao criar som ${key}:`, error.message);
       }

@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Minus, Plus, Play } from 'lucide-react';
+import { Minus, Plus, Play, Edit3 } from 'lucide-react';
 import { useAudio } from '@hooks/useAudio';
 
 const VALORES_APOSTA = [5, 10, 20, 50, 100];
@@ -16,12 +16,17 @@ export const BetControls = ({
   onSpin 
 }) => {
   const [betIndex, setBetIndex] = useState(1); // Começa em R$ 10
+  const [modoCustom, setModoCustom] = useState(false);
+  const [valorCustom, setValorCustom] = useState('10');
   const { playClick } = useAudio();
   
-  const valorAtual = VALORES_APOSTA[betIndex];
-  const podeApostar = saldo >= valorAtual && !isSpinning;
-  const podeDiminuir = betIndex > 0 && !isSpinning;
-  const podeAumentar = betIndex < VALORES_APOSTA.length - 1 && !isSpinning;
+  const valorAtual = modoCustom 
+    ? parseFloat(valorCustom) || 0 
+    : VALORES_APOSTA[betIndex];
+  
+  const podeApostar = saldo >= valorAtual && !isSpinning && valorAtual >= 1 && valorAtual <= saldo;
+  const podeDiminuir = betIndex > 0 && !isSpinning && !modoCustom;
+  const podeAumentar = betIndex < VALORES_APOSTA.length - 1 && !isSpinning && !modoCustom;
   
   const handleDiminuir = () => {
     if (podeDiminuir) {
@@ -44,8 +49,23 @@ export const BetControls = ({
     }
   };
   
+  const toggleModoCustom = () => {
+    playClick();
+    if (!modoCustom) {
+      setValorCustom(valorAtual.toString());
+    }
+    setModoCustom(!modoCustom);
+  };
+  
+  const handleValorCustomChange = (e) => {
+    const value = e.target.value.replace(/[^0-9.]/g, '');
+    setValorCustom(value);
+  };
+  
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex flex-col items-center gap-3">
+      {/* Controles Principais */}
+      <div className="flex items-center justify-center gap-4">
       {/* Botão Diminuir */}
       <motion.button
         onClick={handleDiminuir}
@@ -169,7 +189,7 @@ export const BetControls = ({
             Aposta
           </div>
           <div className="text-2xl font-display font-black text-gold-400">
-            R$ {valorAtual},00
+            R$ {valorAtual.toFixed(2).replace('.', ',')}
           </div>
         </motion.div>
       </div>
@@ -192,6 +212,53 @@ export const BetControls = ({
       >
         <Plus className="w-6 h-6" />
       </motion.button>
+      </div>
+      
+      {/* Modo Aposta Customizada */}
+      <div className="flex items-center gap-2">
+        <motion.button
+          onClick={toggleModoCustom}
+          disabled={isSpinning}
+          className={`
+            px-4 py-2 rounded-lg text-sm font-medium
+            flex items-center gap-2 transition-all
+            ${modoCustom 
+              ? 'bg-gold-500 text-slate-900 shadow-lg shadow-gold-500/50' 
+              : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+            }
+            ${isSpinning ? 'opacity-50 cursor-not-allowed' : ''}
+          `}
+          whileHover={!isSpinning ? { scale: 1.05 } : {}}
+          whileTap={!isSpinning ? { scale: 0.95 } : {}}
+        >
+          <Edit3 className="w-4 h-4" />
+          {modoCustom ? 'Valores Fixos' : 'Valor Livre'}
+        </motion.button>
+        
+        {modoCustom && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex items-center gap-2"
+          >
+            <span className="text-slate-400 text-sm">R$</span>
+            <input
+              type="number"
+              min="1"
+              max={saldo}
+              step="1"
+              value={valorCustom}
+              onChange={handleValorCustomChange}
+              disabled={isSpinning}
+              className="w-24 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-center font-bold focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/50 disabled:opacity-50"
+              placeholder="10"
+            />
+            <span className="text-slate-500 text-xs">
+              (max: R$ {saldo.toFixed(0)})
+            </span>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 };

@@ -10,7 +10,9 @@ import { SlideUp } from '../effects/Animations';
 export const ResultDisplay = ({ resultado, show }) => {
   if (!resultado) return null;
   
-  const { isVitoria, isNearMiss, ganho, resultado: slots } = resultado;
+  // BUGFIX: Garantir que near-miss nunca seja true se for vitória
+  const { isVitoria, ganho, resultado: slots } = resultado;
+  const isNearMiss = !isVitoria && resultado.isNearMiss;
   
   const getIcon = () => {
     if (isVitoria) return <TrendingUp className="w-6 h-6" />;
