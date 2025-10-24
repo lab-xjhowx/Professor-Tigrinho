@@ -49,13 +49,6 @@ export const useGameState = create((set, get) => ({
     }
     
     // Atualizar estado
-    console.log('📊 Atualizando estado:', {
-      saldoAntes: estado.saldo,
-      saldoDepois: resultado.novoEstado.saldo,
-      isVitoria: resultado.resultado.isVitoria,
-      ganho: resultado.resultado.ganho
-    });
-    
     set({
       ...resultado.novoEstado,
       isSpinning: false

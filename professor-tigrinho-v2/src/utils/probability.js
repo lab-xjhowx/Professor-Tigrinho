@@ -61,15 +61,37 @@ export const generateSlotResult = (fase = 'normal', nearMissEnabled = true) => {
   
   // Near-Miss: Forçar 2 iguais se perdeu (40% das vezes)
   if (!isVitoria && nearMissEnabled && Math.random() < 0.4) {
-    // Escolher qual slot vai ser igual
+    // Escolher qual slot vai ser igual, garantindo que NÃO crie 3 iguais
     const matchIndex = Math.floor(Math.random() * 3);
     
     if (matchIndex === 0) {
-      resultado[2] = slot1; // Primeiro e último iguais
+      // Primeiro e último iguais, mas segundo diferente
+      resultado[2] = slot1;
+      // BUGFIX: Garantir que slot2 seja diferente de slot1
+      if (resultado[1].id === slot1.id) {
+        // Achar um animal diferente
+        resultado[1] = animais.find(a => a.id !== slot1.id) || animais[0];
+      }
     } else if (matchIndex === 1) {
-      resultado[0] = slot2; // Primeiro e segundo iguais
+      // Primeiro e segundo iguais, mas terceiro diferente
+      resultado[0] = slot2;
+      // BUGFIX: Garantir que slot3 seja diferente de slot2
+      if (resultado[2].id === slot2.id) {
+        resultado[2] = animais.find(a => a.id !== slot2.id) || animais[0];
+      }
     } else {
-      resultado[1] = slot3; // Segundo e terceiro iguais
+      // Segundo e terceiro iguais, mas primeiro diferente
+      resultado[1] = slot3;
+      // BUGFIX: Garantir que slot1 seja diferente de slot3
+      if (resultado[0].id === slot3.id) {
+        resultado[0] = animais.find(a => a.id !== slot3.id) || animais[0];
+      }
+    }
+    
+    // VERIFICAÇÃO FINAL: Se mesmo assim ficou 3 iguais, não é near-miss
+    const todosIguais = resultado[0].id === resultado[1].id && resultado[1].id === resultado[2].id;
+    if (todosIguais) {
+      return { resultado, isVitoria: true, isNearMiss: false };
     }
     
     return { resultado, isVitoria: false, isNearMiss: true };
